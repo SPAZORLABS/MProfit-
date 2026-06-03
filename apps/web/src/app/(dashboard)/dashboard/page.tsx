@@ -190,18 +190,6 @@ export default function DashboardPage() {
           <p className="text-text-secondary text-sm font-medium">No holdings found in portfolio.</p>
         </Card>
       )}
-
-      {/* ─── Floating Action Button ────────────────────────────── */}
-      <button
-        className={cn(
-          'fixed bottom-20 right-8 w-14 h-14 rounded-full shadow-lg',
-          'bg-sidebar text-white flex items-center justify-center',
-          'hover:bg-sidebar-hover transition-all duration-200',
-          'hover:shadow-xl hover:scale-105 active:scale-95'
-        )}
-      >
-        <Plus className="w-6 h-6" />
-      </button>
     </motion.div>
   );
 }

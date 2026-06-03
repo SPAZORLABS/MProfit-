@@ -30,7 +30,8 @@ export function KPICards({ summary }: KPICardsProps) {
       subtitle: `${formatPercent(dailyGainPct)} today`,
       subtitleColor: dailyGainPct >= 0 ? 'text-gain' : 'text-loss',
       icon: TrendingUp,
-      iconBg: 'bg-brand-primary/5 text-brand-primary',
+      iconBg: 'bg-brand-blue/10 text-brand-blue',
+      containerClass: 'bg-gradient-to-br from-surface to-surface-muted border-border',
     },
     {
       id: 'invested',
@@ -39,7 +40,8 @@ export function KPICards({ summary }: KPICardsProps) {
       subtitle: summary?.cashDragPercent ? `Cash Drag: ${summary.cashDragPercent}%` : 'Total Capital',
       subtitleColor: 'text-text-secondary',
       icon: Wallet,
-      iconBg: 'bg-surface-hover text-text-secondary',
+      iconBg: 'bg-brand-purple/10 text-brand-purple',
+      containerClass: 'bg-surface border-border',
     },
     {
       id: 'todays-gain',
@@ -48,8 +50,9 @@ export function KPICards({ summary }: KPICardsProps) {
       subtitle: null,
       subtitleColor: dailyGainValue >= 0 ? 'text-gain' : 'text-loss',
       icon: Zap,
-      iconBg: dailyGainValue >= 0 ? 'bg-brand-green/10 text-brand-green' : 'bg-brand-red/10 text-brand-red',
+      iconBg: dailyGainValue >= 0 ? 'bg-brand-green-bg text-brand-green' : 'bg-brand-red-bg text-brand-red',
       valueColor: dailyGainValue >= 0 ? 'text-gain' : 'text-loss',
+      containerClass: 'bg-surface border-border',
     },
     {
       id: 'unrealized-gain',
@@ -58,13 +61,14 @@ export function KPICards({ summary }: KPICardsProps) {
       subtitle: summary?.xirr !== undefined ? `Abs Return: ${formatPercent(totalGainPct)}` : `Return: ${formatPercent(totalGainPct)}`,
       subtitleColor: 'text-text-secondary',
       icon: Activity,
-      iconBg: 'bg-brand-blue/10 text-brand-blue',
+      iconBg: 'bg-brand-amber-bg text-brand-amber',
       valuePrefix: '+',
+      containerClass: 'bg-surface border-border',
     },
   ];
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
       {cards.map((card, i) => {
         const Icon = card.icon;
         return (
@@ -73,28 +77,28 @@ export function KPICards({ summary }: KPICardsProps) {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.1, duration: 0.4 }}
-            className="p-5 flex flex-col justify-between h-[140px]"
+            className={cn("p-6 flex flex-col justify-between h-[150px] shadow-sm hover:shadow-md transition-shadow rounded-2xl", card.containerClass)}
           >
             <div className="flex items-start justify-between">
-              <span className="text-[11px] font-bold text-text-tertiary uppercase tracking-widest">
+              <span className="text-xs font-bold text-text-tertiary uppercase tracking-widest">
                 {card.label}
               </span>
-              <div className={cn('p-1.5 rounded-lg', card.iconBg)}>
+              <div className={cn('p-2 rounded-xl shadow-sm bg-surface', card.iconBg)}>
                 <Icon className="w-4 h-4" />
               </div>
             </div>
 
             <div>
               <p className={cn(
-                'text-2xl font-black tracking-tight mb-1',
+                'text-3xl font-black tracking-tight mb-1.5',
                 card.valueColor || 'text-text-primary'
               )}>
                 {card.value}
               </p>
 
               {card.subtitle && (
-                <p className={cn('text-xs font-medium flex items-center gap-1', card.subtitleColor)}>
-                  {card.subtitleColor === 'text-gain' && <TrendingUp className="w-3 h-3" />}
+                <p className={cn('text-sm font-semibold flex items-center gap-1.5', card.subtitleColor)}>
+                  {card.subtitleColor === 'text-gain' && <TrendingUp className="w-3.5 h-3.5" />}
                   {card.subtitle}
                 </p>
               )}

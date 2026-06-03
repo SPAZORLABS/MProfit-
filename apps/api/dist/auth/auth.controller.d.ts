@@ -22,4 +22,14 @@ export declare class AuthController {
             role: import(".prisma/client").$Enums.UserRole;
         };
     }>;
+    getProfile(req: any): Promise<{
+        id: string;
+        email: string;
+        name: string;
+        avatarUrl: string | null;
+        role: import(".prisma/client").$Enums.UserRole;
+        kycStatus: import(".prisma/client").$Enums.KYCStatus;
+        panLast4: string | null;
+        createdAt: Date;
+    }>;
 }

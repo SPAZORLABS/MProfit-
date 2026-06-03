@@ -1,9 +1,9 @@
 'use client';
 
 import React from 'react';
-import { Sidebar } from '@/components/layout/sidebar';
-import { Header } from '@/components/layout/header';
+import { TopNav } from '@/components/layout/top-nav';
 import { Footer } from '@/components/layout/footer';
+import { FloatingCopilot } from '@/components/layout/floating-copilot';
 import { mockDashboardSummary } from '@/lib/mock-data';
 import { useAuth } from '@/hooks/useAuth';
 import { useRouter } from 'next/navigation';
@@ -38,14 +38,14 @@ export default function DashboardLayout({
   return (
     <PortfolioProvider>
       <div className="min-h-screen bg-bg">
-        <Sidebar />
-        <Header />
-        <main className="ml-[260px] mt-16 min-h-[calc(100vh-64px-52px)] px-8 py-8 max-w-[1600px] mx-auto">
+        <TopNav />
+        <main className="mt-[104px] min-h-[calc(100vh-104px-52px)] px-6 py-8 max-w-[1600px] mx-auto">
           {children}
         </main>
-        <div className="ml-[260px]">
+        <div>
           <Footer lastSyncAt={mockDashboardSummary.lastSyncAt} />
         </div>
+        <FloatingCopilot />
       </div>
     </PortfolioProvider>
   );

@@ -1,4 +1,4 @@
-import { Controller, Post, Body, HttpCode, HttpStatus } from '@nestjs/common';
+import { Controller, Post, Get, Body, HttpCode, HttpStatus, Req } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { PanVerificationDto } from './dto/pan-verification.dto';
 import { VerifyOtpDto } from './dto/verify-otp.dto';
@@ -20,5 +20,10 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   async verifyOtp(@Body() dto: VerifyOtpDto) {
     return this.authService.verifyOtp(dto);
+  }
+
+  @Get('profile')
+  async getProfile(@Req() req: any) {
+    return this.authService.getProfile(req.user.userId);
   }
 }

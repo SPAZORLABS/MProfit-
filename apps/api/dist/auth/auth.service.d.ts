@@ -33,4 +33,14 @@ export declare class AuthService {
             role: import(".prisma/client").$Enums.UserRole;
         };
     }>;
+    getProfile(userId: string): Promise<{
+        id: string;
+        email: string;
+        name: string;
+        avatarUrl: string | null;
+        role: import(".prisma/client").$Enums.UserRole;
+        kycStatus: import(".prisma/client").$Enums.KYCStatus;
+        panLast4: string | null;
+        createdAt: Date;
+    }>;
 }

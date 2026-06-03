@@ -18,17 +18,18 @@ import {
   Landmark,
   Loader2,
   RefreshCw,
-  Check
+  Check,
+  Sparkles
 } from 'lucide-react';
 import { Card, AnimatedCard } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
 const STEPS = [
-  { id: 1, label: 'Identity Verification' },
-  { id: 2, label: 'Authentication' },
-  { id: 3, label: 'Data Consent' },
-  { id: 4, label: 'Secure Sync' },
+  { id: 1, label: 'Identity' },
+  { id: 2, label: 'Verify' },
+  { id: 3, label: 'Consent' },
+  { id: 4, label: 'Sync' },
 ];
 
 export default function OnboardingPage() {
@@ -147,98 +148,95 @@ export default function OnboardingPage() {
 
   if (isLoading || isAuthenticated) {
     return (
-      <div className="min-h-screen bg-bg flex items-center justify-center">
+      <div className="min-h-screen bg-[#081225] flex items-center justify-center">
         <Loader2 className="w-8 h-8 animate-spin text-brand-blue" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-bg flex items-center justify-center relative overflow-hidden">
+    <div className="min-h-screen bg-[#081225] flex items-center justify-center relative overflow-hidden font-sans">
       {/* Background Orbs */}
-      <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-brand-blue/10 blur-[100px]" />
-      <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-brand-green/10 blur-[100px]" />
+      <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-[#0A84FF]/20 blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] rounded-full bg-[#30D158]/10 blur-[120px] pointer-events-none" />
+      
+      {/* Grid Pattern */}
+      <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay pointer-events-none"></div>
 
-      <div className="w-full max-w-[480px] p-6 z-10">
-        <div className="flex flex-col items-center mb-8">
-          <div className="w-12 h-12 rounded-2xl bg-brand-primary text-white flex items-center justify-center shadow-lg mb-4">
-            <span className="font-bold text-xl">M</span>
+      <div className="w-full max-w-[440px] p-6 z-10">
+        <div className="flex flex-col items-center mb-10">
+          <div className="w-12 h-12 rounded-2xl bg-gradient-to-b from-brand-blue to-brand-blue-hover text-white flex items-center justify-center shadow-lg mb-6 border border-white/10 shadow-brand-blue/20">
+            <Sparkles className="w-6 h-6 text-white" />
           </div>
-          <h1 className="text-2xl font-bold text-text-primary tracking-tight">Aurapex Intelligence</h1>
-          <p className="text-sm text-text-secondary mt-1 text-center">
-            Enterprise-grade wealth management platform
+          <h1 className="text-3xl font-bold text-white tracking-tight mb-2">Aurapex Intelligence</h1>
+          <p className="text-sm text-text-tertiary text-center max-w-xs">
+            Connect your accounts for AI-powered wealth analytics
           </p>
         </div>
 
-        <AnimatedCard className="overflow-hidden p-8 shadow-xl">
+        <AnimatedCard className="overflow-hidden p-8 shadow-2xl bg-white/5 backdrop-blur-xl border-white/10 rounded-3xl">
           {/* Progress Indicators */}
-          <div className="flex items-center justify-between mb-12 pb-6 relative">
-            <div className="absolute left-0 right-0 top-1/2 h-[2px] bg-border-light -z-10 -translate-y-1/2" />
+          <div className="flex items-center justify-between mb-10 relative">
+            <div className="absolute left-4 right-4 top-1/2 h-[2px] bg-white/10 -z-10 -translate-y-1/2" />
             {STEPS.map((step) => {
               const isActive = step.id === currentStep;
               const isPast = step.id < currentStep;
               return (
-                <div key={step.id} className="flex flex-col items-center">
+                <div key={step.id} className="flex flex-col items-center gap-2">
                   <div className={cn(
-                    'w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold border-2 transition-colors duration-300 bg-surface',
-                    isActive ? 'border-brand-primary text-brand-primary' :
-                      isPast ? 'border-brand-primary bg-brand-primary text-white' :
-                        'border-border text-text-muted'
+                    'w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-500 shadow-sm',
+                    isActive ? 'bg-brand-blue text-white ring-4 ring-brand-blue/20' :
+                      isPast ? 'bg-brand-green text-white' :
+                        'bg-[#111827] text-white/30 border border-white/10'
                   )}>
                     {isPast ? <Check className="w-4 h-4" /> : step.id}
                   </div>
                   <span className={cn(
-                    'text-[10px] uppercase tracking-wider font-semibold mt-2 absolute -bottom-5 w-24 text-center',
-                    isActive ? 'text-brand-primary' : 'text-text-muted'
+                    'text-[10px] uppercase tracking-widest font-semibold',
+                    isActive ? 'text-white' : 'text-white/30'
                   )}>
-                    {isActive && step.label}
+                    {step.label}
                   </span>
                 </div>
               );
             })}
           </div>
 
-          <div className="mt-8">
+          <div className="mt-4">
             <AnimatePresence mode="wait">
               {currentStep === 1 && (
                 <motion.div
                   key="step1"
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -20 }}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
                   className="space-y-6"
                 >
-                  <div className="text-center space-y-1">
-                    <h2 className="text-xl font-bold text-text-primary">Verify your identity</h2>
-                    <p className="text-sm text-text-secondary">Enter your PAN to securely connect with government registries</p>
+                  <div className="space-y-2">
+                    <label className="text-xs font-semibold text-white/70 uppercase tracking-widest">Permanent Account Number</label>
+                    <Input
+                      type="text"
+                      value={pan}
+                      onChange={handlePANChange}
+                      placeholder="ABCDE1234F"
+                      maxLength={10}
+                      error={!!error}
+                      className="text-center font-mono text-xl tracking-[0.2em] uppercase h-14 bg-black/40 border-white/10 text-white placeholder:text-white/20 focus-visible:ring-brand-blue/50"
+                    />
+                    {error && <p className="text-xs text-brand-red mt-1 text-center font-medium">{error}</p>}
                   </div>
 
-                  <div className="space-y-4">
-                    <div>
-                      <Input
-                        type="text"
-                        value={pan}
-                        onChange={handlePANChange}
-                        placeholder="ABCDE1234F"
-                        maxLength={10}
-                        error={!!error}
-                        className="text-center font-mono text-lg tracking-widest uppercase h-14"
-                      />
-                      {error && <p className="text-sm text-brand-red mt-2 text-center">{error}</p>}
-                    </div>
+                  <Button
+                    className="w-full h-12 text-base font-semibold bg-white text-brand-primary hover:bg-white/90 shadow-[0_0_20px_rgba(255,255,255,0.15)] rounded-xl"
+                    onClick={handleContinuePAN}
+                    isLoading={isSubmitting}
+                  >
+                    Continue <ArrowRight className="ml-2 w-4 h-4" />
+                  </Button>
 
-                    <Button
-                      className="w-full h-12 text-base"
-                      onClick={handleContinuePAN}
-                      isLoading={isSubmitting}
-                    >
-                      Continue to Verification <ArrowRight className="ml-2 w-4 h-4" />
-                    </Button>
-                  </div>
-
-                  <div className="flex items-center justify-center gap-2 text-text-tertiary">
-                    <Shield className="w-4 h-4" />
-                    <span className="text-xs font-medium">Secured by 256-bit encryption</span>
+                  <div className="flex items-center justify-center gap-2 text-white/40 pt-2">
+                    <Shield className="w-3.5 h-3.5" />
+                    <span className="text-[11px] font-medium tracking-wide">Secured by 256-bit encryption</span>
                   </div>
                 </motion.div>
               )}
@@ -246,91 +244,81 @@ export default function OnboardingPage() {
               {currentStep === 2 && (
                 <motion.div
                   key="step2"
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -20 }}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
                   className="space-y-6"
                 >
-                  <div className="text-center space-y-1">
-                    <h2 className="text-xl font-bold text-text-primary">Enter Verification Code</h2>
-                    <p className="text-sm text-text-secondary">We've sent a secure 6-digit code to your registered mobile number</p>
+                  <div className="space-y-2">
+                    <label className="text-xs font-semibold text-white/70 uppercase tracking-widest text-center block">Verification Code</label>
+                    <Input
+                      type="text"
+                      value={otp}
+                      onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
+                      placeholder="••••••"
+                      maxLength={6}
+                      error={!!error}
+                      className="text-center font-mono text-3xl tracking-[0.3em] h-14 bg-black/40 border-white/10 text-white placeholder:text-white/20 focus-visible:ring-brand-blue/50"
+                    />
+                    {error && <p className="text-xs text-brand-red mt-1 text-center font-medium">{error}</p>}
                   </div>
 
-                  <div className="space-y-4">
-                    <div>
-                      <Input
-                        type="text"
-                        value={otp}
-                        onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
-                        placeholder="000000"
-                        maxLength={6}
-                        error={!!error}
-                        className="text-center font-mono text-2xl tracking-[0.5em] h-14"
-                      />
-                      {error && <p className="text-sm text-brand-red mt-2 text-center">{error}</p>}
-                    </div>
-
-                    <Button
-                      className="w-full h-12 text-base"
-                      onClick={handleContinueOTP}
-                      isLoading={isSubmitting}
-                      disabled={otp.length !== 6}
-                    >
-                      Verify & Authenticate
-                    </Button>
-                  </div>
+                  <Button
+                    className="w-full h-12 text-base font-semibold bg-white text-brand-primary hover:bg-white/90 shadow-[0_0_20px_rgba(255,255,255,0.15)] rounded-xl"
+                    onClick={handleContinueOTP}
+                    isLoading={isSubmitting}
+                    disabled={otp.length !== 6}
+                  >
+                    Verify & Authenticate
+                  </Button>
                 </motion.div>
               )}
 
               {currentStep === 3 && (
                 <motion.div
                   key="step3"
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -20 }}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
                   className="space-y-6"
                 >
-                  <div className="text-center space-y-1">
-                    <div className="w-12 h-12 bg-brand-green/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <FileCheck className="w-6 h-6 text-brand-green" />
-                    </div>
-                    <h2 className="text-xl font-bold text-text-primary">Data Access Consent</h2>
-                    <p className="text-sm text-text-secondary">Select the accounts you want Aurapex to aggregate</p>
-                  </div>
-
                   <div className="space-y-3">
                     {[
-                      { id: 'mutualFunds', label: 'Mutual Funds (CAMS/KFintech)', icon: PieChart },
-                      { id: 'equity', label: 'Stocks & Demat (CDSL/NSDL)', icon: Building2 },
-                      { id: 'banking', label: 'Bank Accounts (AA Framework)', icon: Landmark },
+                      { id: 'mutualFunds', label: 'Mutual Funds', sub: 'CAMS / KFintech', icon: PieChart },
+                      { id: 'equity', label: 'Stocks & Demat', sub: 'CDSL / NSDL', icon: Building2 },
+                      { id: 'banking', label: 'Bank Accounts', sub: 'Account Aggregator', icon: Landmark },
                     ].map((item) => {
                       const isChecked = consents[item.id as keyof typeof consents];
                       return (
-                        <div
+                         <div
                           key={item.id}
                           className={cn(
-                            'flex items-center gap-4 p-4 rounded-xl border transition-all cursor-pointer',
-                            isChecked ? 'border-brand-blue bg-brand-blue/5' : 'border-border bg-surface'
+                            'flex items-center gap-4 p-4 rounded-2xl border transition-all cursor-pointer',
+                            isChecked ? 'border-brand-blue bg-brand-blue/10' : 'border-white/10 bg-black/20 hover:bg-black/40'
                           )}
                           onClick={() => setConsents({ ...consents, [item.id]: !isChecked })}
                         >
                           <div className={cn(
                             'w-5 h-5 rounded-md border flex items-center justify-center transition-colors',
-                            isChecked ? 'bg-brand-blue border-brand-blue text-white' : 'border-border'
+                            isChecked ? 'bg-brand-blue border-brand-blue text-white' : 'border-white/20'
                           )}>
-                            {isChecked && <Check className="w-3 h-3" />}
+                            {isChecked && <Check className="w-3.5 h-3.5" />}
                           </div>
-                          <div className="flex items-center gap-3">
-                            <item.icon className="w-5 h-5 text-text-tertiary" />
-                            <span className="text-sm font-medium text-text-primary">{item.label}</span>
+                          <div className="flex-1">
+                            <span className="text-sm font-semibold text-white block">{item.label}</span>
+                            <span className="text-xs text-white/50">{item.sub}</span>
                           </div>
+                          <item.icon className={cn("w-5 h-5", isChecked ? "text-brand-blue" : "text-white/20")} />
                         </div>
                       );
                     })}
                   </div>
 
-                  <Button className="w-full h-12 text-base" onClick={handleGrantConsent}>
-                    Grant Access & Connect
+                  <Button 
+                    className="w-full h-12 text-base font-semibold bg-white text-brand-primary hover:bg-white/90 shadow-[0_0_20px_rgba(255,255,255,0.15)] rounded-xl mt-4" 
+                    onClick={handleGrantConsent}
+                  >
+                    Connect Accounts
                   </Button>
                 </motion.div>
               )}
@@ -342,27 +330,27 @@ export default function OnboardingPage() {
                   animate={{ opacity: 1, scale: 1 }}
                   className="space-y-8 py-8 text-center"
                 >
-                  <div className="relative w-24 h-24 mx-auto">
+                  <div className="relative w-32 h-32 mx-auto">
                     <svg className="w-full h-full -rotate-90" viewBox="0 0 100 100">
-                      <circle cx="50" cy="50" r="45" className="stroke-border-light stroke-[4] fill-none" />
+                      <circle cx="50" cy="50" r="45" className="stroke-white/10 stroke-[3] fill-none" />
                       <circle
                         cx="50"
                         cy="50"
                         r="45"
-                        className="stroke-brand-blue stroke-[4] fill-none transition-all duration-300"
+                        className="stroke-brand-blue stroke-[3] fill-none transition-all duration-300"
                         strokeDasharray="283"
                         strokeDashoffset={283 - (283 * syncProgress) / 100}
                         strokeLinecap="round"
                       />
                     </svg>
                     <div className="absolute inset-0 flex items-center justify-center flex-col">
-                      <span className="text-2xl font-bold text-text-primary">{syncProgress}%</span>
+                      <span className="text-3xl font-bold text-white">{syncProgress}%</span>
                     </div>
                   </div>
 
                   <div className="space-y-2">
-                    <h2 className="text-xl font-bold text-text-primary">Syncing your wealth</h2>
-                    <p className="text-sm text-text-secondary animate-pulse">{syncMessage}</p>
+                    <h2 className="text-lg font-semibold text-white tracking-wide">Syncing your wealth</h2>
+                    <p className="text-sm text-brand-blue animate-pulse font-medium">{syncMessage}</p>
                   </div>
                 </motion.div>
               )}
@@ -371,8 +359,8 @@ export default function OnboardingPage() {
         </AnimatedCard>
 
         {/* Footer */}
-        <p className="text-center text-xs text-text-tertiary mt-8">
-          By continuing, you agree to Aurapex's <a href="#" className="underline">Terms of Service</a> and <a href="#" className="underline">Privacy Policy</a>.
+        <p className="text-center text-[11px] text-white/40 mt-8 font-medium tracking-wide">
+          By continuing, you agree to Aurapex's <a href="#" className="text-white/60 hover:text-white transition-colors underline decoration-white/20 underline-offset-2">Terms of Service</a> and <a href="#" className="text-white/60 hover:text-white transition-colors underline decoration-white/20 underline-offset-2">Privacy Policy</a>.
         </p>
       </div>
     </div>

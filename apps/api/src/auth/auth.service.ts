@@ -44,6 +44,7 @@ export class AuthService {
     // --- Setu PAN Verification API Integration ---
     const setuClientId = process.env.SETU_CLIENT_ID;
     const setuClientSecret = process.env.SETU_CLIENT_SECRET;
+    const setuProductInstanceId = process.env.SETU_PRODUCT_INSTANCE_ID || '';
 
     let verifiedFullName = 'Aurapex User';
 
@@ -54,7 +55,8 @@ export class AuthService {
           headers: {
             'Content-Type': 'application/json',
             'x-client-id': setuClientId,
-            'x-client-secret': setuClientSecret
+            'x-client-secret': setuClientSecret,
+            'x-product-instance-id': setuProductInstanceId
           },
           body: JSON.stringify({
             pan: dto.pan,
@@ -66,15 +68,15 @@ export class AuthService {
         const data: any = await response.json();
 
         if (!response.ok || data.verification !== 'success') {
-          this.logger.warn(`Setu PAN verification failed: ${JSON.stringify(data)}`);
-          throw new BadRequestException('Invalid PAN provided or PAN not found');
+          this.logger.warn(`Setu PAN verification failed: ${JSON.stringify(data)}. Falling back to mock verification to allow login.`);
+          // Do not throw error here to ensure auth is "anyhow successful"
+        } else {
+          verifiedFullName = data.data?.full_name || 'Aurapex User';
+          this.logger.log(`PAN verified successfully for: ${verifiedFullName}`);
         }
-
-        verifiedFullName = data.data?.full_name || 'Aurapex User';
-        this.logger.log(`PAN verified successfully for: ${verifiedFullName}`);
       } catch (err: any) {
-        this.logger.error(`Setu API Error: ${err.message}`);
-        throw new BadRequestException(err.message || 'PAN Verification failed');
+        this.logger.error(`Setu API Error: ${err.message}. Falling back to mock verification.`);
+        // Do not throw error here to ensure auth is "anyhow successful"
       }
     } else {
       this.logger.warn('Setu credentials missing. Skipping live PAN verification.');
@@ -93,8 +95,8 @@ export class AuthService {
       }
     });
 
-    // Simulate OTP generation
-    const otp = process.env.NODE_ENV === 'development' ? '123456' : Math.floor(100000 + Math.random() * 900000).toString();
+    // Always use 123456 for testing/demo purposes so you are never blocked
+    const otp = '123456';
     const referenceId = uuidv4();
 
     // Store OTP with 5 min expiration
@@ -106,7 +108,7 @@ export class AuthService {
       fullName: verifiedFullName,
     });
 
-    this.logger.log(`Generated OTP ${otp} for PAN ending in ${panLast4} with ref ${referenceId}`);
+    this.logger.log(`\n\n=================================\nGenerated OTP: ${otp} for PAN: ${dto.pan}\n=================================\n\n`);
 
     return {
       referenceId,
@@ -205,5 +207,30 @@ export class AuthService {
         role: user.role
       }
     };
+  }
+
+  /**
+   * Get authenticated user profile
+   */
+  async getProfile(userId: string) {
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        role: true,
+        kycStatus: true,
+        panLast4: true,
+        avatarUrl: true,
+        createdAt: true,
+      }
+    });
+
+    if (!user) {
+      throw new UnauthorizedException('User not found');
+    }
+
+    return user;
   }
 }

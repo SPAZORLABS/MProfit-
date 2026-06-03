@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { ApiClient } from '@/lib/api-client';
 
@@ -32,19 +32,19 @@ export function useAuth() {
     checkAuth();
   }, []);
 
-  const login = (token: string, userData: any) => {
+  const login = useCallback((token: string, userData: any) => {
     localStorage.setItem('auth_token', token);
     setUser(userData);
     setIsAuthenticated(true);
     router.push('/dashboard');
-  };
+  }, [router]);
 
-  const logout = () => {
+  const logout = useCallback(() => {
     localStorage.removeItem('auth_token');
     setUser(null);
     setIsAuthenticated(false);
     router.push('/onboarding');
-  };
+  }, [router]);
 
   return {
     isAuthenticated,
