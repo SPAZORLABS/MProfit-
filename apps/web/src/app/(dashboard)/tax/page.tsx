@@ -2,8 +2,8 @@
 
 import React from 'react';
 import { cn } from '@/lib/utils';
-import { formatCurrency, formatCompactINR, formatPercent } from '@mprofit/shared';
-import { TaxType } from '@mprofit/shared';
+import { formatCurrency, formatCompactINR, formatPercent } from '@Aurapex/shared';
+import { TaxType } from '@Aurapex/shared';
 import { useAuth } from '@/hooks/useAuth';
 import { ApiClient } from '@/lib/api-client';
 import { mockTaxOptimizationInsight } from '@/lib/mock-data'; // Keep insight mock for now since it requires AI triggering
@@ -28,7 +28,7 @@ export default function TaxPage() {
   const [taxLots, setTaxLots] = React.useState<any[]>([]);
   const [isLoading, setIsLoading] = React.useState(true);
   const [error, setError] = React.useState<string | null>(null);
-  
+
   const insight = mockTaxOptimizationInsight;
 
   const fetchTaxData = async () => {
@@ -38,11 +38,11 @@ export default function TaxPage() {
       // Determine the financial year (e.g. 2024-04-01 to 2025-03-31)
       const startDate = '2024-04-01T00:00:00.000Z';
       const endDate = '2025-03-31T23:59:59.999Z';
-      
+
       const portfolios = await ApiClient.getPortfolios() as any[];
       if (portfolios && portfolios.length > 0) {
         const primaryPortfolioId = portfolios[0].id;
-        
+
         // Fetch Summary
         const summaryResponse = await ApiClient.getCapitalGains(startDate, endDate, primaryPortfolioId);
         setTax(summaryResponse);
@@ -51,7 +51,7 @@ export default function TaxPage() {
         // Since getCapitalGains returns `records`, we can use that for the table if we want.
         // For demonstration, we'll map the `records` to the table format.
         if ((summaryResponse as any).records) {
-           setTaxLots((summaryResponse as any).records);
+          setTaxLots((summaryResponse as any).records);
         }
       } else {
         setError('No portfolios found.');

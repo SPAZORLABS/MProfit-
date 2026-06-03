@@ -1,5 +1,5 @@
 // ════════════════════════════════════════════════════════════════
-// MProfit Next — Application Constants
+// Aurapex Next — Application Constants
 // ════════════════════════════════════════════════════════════════
 
 import { AssetCategory } from '../types';
@@ -140,9 +140,9 @@ export const MAX_PAGE_SIZE = 100;
 
 // ─── AI Guardrails ───────────────────────────────────────────────
 
-export const AI_DISCLAIMER = 
+export const AI_DISCLAIMER =
   'This analysis is for informational purposes only and does not constitute financial advice. ' +
-  'MProfit does not execute trades or guarantee returns. Consult a registered financial advisor ' +
+  'Aurapex does not execute trades or guarantee returns. Consult a registered financial advisor ' +
   'before making investment decisions.';
 
 export const AI_FORBIDDEN_ACTIONS = [

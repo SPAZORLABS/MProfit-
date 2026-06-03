@@ -7,7 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 export class ReportService {
   private readonly logger = new Logger(ReportService.name);
 
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) { }
 
   async generateReport(
     userId: string,
@@ -17,7 +17,7 @@ export class ReportService {
   ) {
     // Determine portfolio scope
     const portfolioId = filters.portfolioId;
-    
+
     if (portfolioId) {
       const portfolio = await this.prisma.portfolio.findFirst({
         where: { id: portfolioId, userId }
@@ -79,7 +79,7 @@ export class ReportService {
           where: { id: reportId },
           data: {
             status: ReportStatus.COMPLETED,
-            fileUrl: `https://mprofit-mock-storage.s3.amazonaws.com/reports/${reportId}.pdf`,
+            fileUrl: `https://Aurapex-mock-storage.s3.amazonaws.com/reports/${reportId}.pdf`,
             generatedAt: new Date(),
           }
         });

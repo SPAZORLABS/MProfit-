@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import { formatCurrency, formatPercent } from '@mprofit/shared';
+import { formatCurrency, formatPercent } from '@Aurapex/shared';
 
 export default function App() {
   const dummyPortfolioValue = 1250000.5;
@@ -8,7 +8,7 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>MProfit Next Mobile</Text>
+      <Text style={styles.title}>Aurapex Next Mobile</Text>
       <Text style={styles.subtitle}>Portfolio Value: {formatCurrency(dummyPortfolioValue)}</Text>
       <Text style={styles.subtitle}>Annual Returns: {formatPercent(dummyReturns)}</Text>
       <StatusBar style="auto" />

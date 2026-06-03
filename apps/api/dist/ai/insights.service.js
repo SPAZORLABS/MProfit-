@@ -39,7 +39,7 @@ let InsightsService = InsightsService_1 = class InsightsService {
         if (this.groq) {
             try {
                 const systemPrompt = `
-You are MProfit AI, a wealth intelligence system. Analyze the following portfolio holdings and generate actionable insights (e.g., concentration risk, tax harvesting).
+You are Aurapex AI, a wealth intelligence system. Analyze the following portfolio holdings and generate actionable insights (e.g., concentration risk, tax harvesting).
 Return a JSON object with an "insights" key containing an array of insights matching this schema:
 {
   "insights": [

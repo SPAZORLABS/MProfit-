@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { validatePAN } from '@mprofit/shared';
+import { validatePAN } from '@Aurapex/shared';
 import { ApiClient } from '@/lib/api-client';
 import { useAuth } from '@/hooks/useAuth';
 import { useRouter } from 'next/navigation';
@@ -39,7 +39,7 @@ export default function OnboardingPage() {
   const [referenceId, setReferenceId] = React.useState('');
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   const [tempAuth, setTempAuth] = React.useState<{ token: string, user: any } | null>(null);
-  
+
   // Consent state
   const [consents, setConsents] = React.useState({
     mutualFunds: true,
@@ -75,7 +75,7 @@ export default function OnboardingPage() {
       setError('Invalid PAN format. Expected: ABCDE1234F');
       return;
     }
-    
+
     setIsSubmitting(true);
     try {
       await new Promise(resolve => setTimeout(resolve, 1500));
@@ -164,7 +164,7 @@ export default function OnboardingPage() {
           <div className="w-12 h-12 rounded-2xl bg-brand-primary text-white flex items-center justify-center shadow-lg mb-4">
             <span className="font-bold text-xl">M</span>
           </div>
-          <h1 className="text-2xl font-bold text-text-primary tracking-tight">MProfit Intelligence</h1>
+          <h1 className="text-2xl font-bold text-text-primary tracking-tight">Aurapex Intelligence</h1>
           <p className="text-sm text-text-secondary mt-1 text-center">
             Enterprise-grade wealth management platform
           </p>
@@ -181,9 +181,9 @@ export default function OnboardingPage() {
                 <div key={step.id} className="flex flex-col items-center">
                   <div className={cn(
                     'w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold border-2 transition-colors duration-300 bg-surface',
-                    isActive ? 'border-brand-primary text-brand-primary' : 
-                    isPast ? 'border-brand-primary bg-brand-primary text-white' : 
-                    'border-border text-text-muted'
+                    isActive ? 'border-brand-primary text-brand-primary' :
+                      isPast ? 'border-brand-primary bg-brand-primary text-white' :
+                        'border-border text-text-muted'
                   )}>
                     {isPast ? <Check className="w-4 h-4" /> : step.id}
                   </div>
@@ -212,7 +212,7 @@ export default function OnboardingPage() {
                     <h2 className="text-xl font-bold text-text-primary">Verify your identity</h2>
                     <p className="text-sm text-text-secondary">Enter your PAN to securely connect with government registries</p>
                   </div>
-                  
+
                   <div className="space-y-4">
                     <div>
                       <Input
@@ -227,9 +227,9 @@ export default function OnboardingPage() {
                       {error && <p className="text-sm text-brand-red mt-2 text-center">{error}</p>}
                     </div>
 
-                    <Button 
-                      className="w-full h-12 text-base" 
-                      onClick={handleContinuePAN} 
+                    <Button
+                      className="w-full h-12 text-base"
+                      onClick={handleContinuePAN}
                       isLoading={isSubmitting}
                     >
                       Continue to Verification <ArrowRight className="ml-2 w-4 h-4" />
@@ -255,7 +255,7 @@ export default function OnboardingPage() {
                     <h2 className="text-xl font-bold text-text-primary">Enter Verification Code</h2>
                     <p className="text-sm text-text-secondary">We've sent a secure 6-digit code to your registered mobile number</p>
                   </div>
-                  
+
                   <div className="space-y-4">
                     <div>
                       <Input
@@ -270,9 +270,9 @@ export default function OnboardingPage() {
                       {error && <p className="text-sm text-brand-red mt-2 text-center">{error}</p>}
                     </div>
 
-                    <Button 
-                      className="w-full h-12 text-base" 
-                      onClick={handleContinueOTP} 
+                    <Button
+                      className="w-full h-12 text-base"
+                      onClick={handleContinueOTP}
                       isLoading={isSubmitting}
                       disabled={otp.length !== 6}
                     >
@@ -295,9 +295,9 @@ export default function OnboardingPage() {
                       <FileCheck className="w-6 h-6 text-brand-green" />
                     </div>
                     <h2 className="text-xl font-bold text-text-primary">Data Access Consent</h2>
-                    <p className="text-sm text-text-secondary">Select the accounts you want MProfit to aggregate</p>
+                    <p className="text-sm text-text-secondary">Select the accounts you want Aurapex to aggregate</p>
                   </div>
-                  
+
                   <div className="space-y-3">
                     {[
                       { id: 'mutualFunds', label: 'Mutual Funds (CAMS/KFintech)', icon: PieChart },
@@ -359,7 +359,7 @@ export default function OnboardingPage() {
                       <span className="text-2xl font-bold text-text-primary">{syncProgress}%</span>
                     </div>
                   </div>
-                  
+
                   <div className="space-y-2">
                     <h2 className="text-xl font-bold text-text-primary">Syncing your wealth</h2>
                     <p className="text-sm text-text-secondary animate-pulse">{syncMessage}</p>
@@ -372,7 +372,7 @@ export default function OnboardingPage() {
 
         {/* Footer */}
         <p className="text-center text-xs text-text-tertiary mt-8">
-          By continuing, you agree to MProfit's <a href="#" className="underline">Terms of Service</a> and <a href="#" className="underline">Privacy Policy</a>.
+          By continuing, you agree to Aurapex's <a href="#" className="underline">Terms of Service</a> and <a href="#" className="underline">Privacy Policy</a>.
         </p>
       </div>
     </div>

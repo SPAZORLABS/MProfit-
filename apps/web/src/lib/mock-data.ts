@@ -1,5 +1,5 @@
 // ════════════════════════════════════════════════════════════════
-// MProfit Next — Mock Data (Matches Design Screenshots Exactly)
+// Aurapex Next — Mock Data (Matches Design Screenshots Exactly)
 // ════════════════════════════════════════════════════════════════
 
 import type {
@@ -18,7 +18,7 @@ import type {
   AIMessage,
   ScenarioVariable,
   Notification,
-} from '@mprofit/shared';
+} from '@Aurapex/shared';
 import {
   AssetCategory,
   AssetType,
@@ -26,7 +26,7 @@ import {
   AIInsightType,
   TaxType,
   MomentumScore,
-} from '@mprofit/shared';
+} from '@Aurapex/shared';
 
 // ─── Dashboard Summary (matches Screen 2) ───────────────────────
 
@@ -319,7 +319,7 @@ export const mockPerformanceData: PerformanceDataPoint[] = (() => {
   const endDate = new Date('2024-03-01');
   let portfolioValue = 100;
   let benchmarkValue = 100;
-  
+
   for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 7)) {
     portfolioValue *= 1 + (Math.random() * 0.03 - 0.008);
     benchmarkValue *= 1 + (Math.random() * 0.025 - 0.008);

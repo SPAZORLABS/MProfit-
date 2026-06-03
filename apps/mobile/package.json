@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.ts",
   "dependencies": {
-    "@mprofit/shared": "*",
+    "@Aurapex/shared": "*",
     "expo": "~56.0.3",
     "expo-status-bar": "~56.0.4",
     "react": "19.2.3",

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { cn } from '@/lib/utils';
-import { formatCompactINR, formatCurrency, formatPercent } from '@mprofit/shared';
+import { formatCompactINR, formatCurrency, formatPercent } from '@Aurapex/shared';
 import { TrendingUp, Wallet, Zap, Activity } from 'lucide-react';
 import { AnimatedCard } from '@/components/ui/card';
 
@@ -14,11 +14,11 @@ export function KPICards({ summary }: KPICardsProps) {
   // Graceful fallbacks for missing data
   const totalValue = summary?.totalValue || summary?.netWorth || 0;
   const invested = summary?.investedAmount || 0;
-  
+
   // Extract daily and total gains based on the structure sent by page.tsx
   const dailyGainValue = summary?.dayGain?.value !== undefined ? summary.dayGain.value : summary?.todaysGain || 0;
   const dailyGainPct = summary?.dayGain?.percentage !== undefined ? summary.dayGain.percentage : 0;
-  
+
   const totalGainValue = summary?.totalGain?.value !== undefined ? summary.totalGain.value : summary?.unrealizedGain || 0;
   const totalGainPct = summary?.totalGain?.percentage !== undefined ? summary.totalGain.percentage : summary?.unrealizedGainPercent || 0;
 

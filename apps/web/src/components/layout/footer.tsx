@@ -11,12 +11,12 @@ interface FooterProps {
 export function Footer({ lastSyncAt, className }: FooterProps) {
   const syncTime = lastSyncAt
     ? (() => {
-        const diff = Date.now() - new Date(lastSyncAt).getTime();
-        const minutes = Math.floor(diff / 60000);
-        if (minutes < 1) return 'Just now';
-        if (minutes < 60) return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
-        return `${Math.floor(minutes / 60)} hours ago`;
-      })()
+      const diff = Date.now() - new Date(lastSyncAt).getTime();
+      const minutes = Math.floor(diff / 60000);
+      if (minutes < 1) return 'Just now';
+      if (minutes < 60) return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
+      return `${Math.floor(minutes / 60)} hours ago`;
+    })()
     : '2 minutes ago';
 
   return (
@@ -31,10 +31,10 @@ export function Footer({ lastSyncAt, className }: FooterProps) {
           <div className="w-5 h-5 rounded bg-sidebar flex items-center justify-center">
             <span className="text-white text-[10px] font-bold">M</span>
           </div>
-          MProfit
+          Aurapex
         </div>
         <span className="text-text-tertiary">
-          © 2024 MProfit Wealth Intelligence. Professional Wealth Management Compliance.
+          © 2024 Aurapex Wealth Intelligence. Professional Wealth Management Compliance.
         </span>
       </div>
 

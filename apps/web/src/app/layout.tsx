@@ -2,12 +2,12 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "MProfit Next — Multi-Asset Portfolio Management & AI Advisory",
+  title: "Aurapex Next — Multi-Asset Portfolio Management & AI Advisory",
   description: "Enterprise-grade portfolio management platform with AI-powered wealth intelligence, multi-asset tracking, tax optimization, and institutional-grade analytics for Indian investors.",
   keywords: ["portfolio management", "wealth intelligence", "AI advisory", "tax optimization", "XIRR", "mutual funds", "stocks", "Indian market"],
-  authors: [{ name: "MProfit" }],
+  authors: [{ name: "Aurapex" }],
   openGraph: {
-    title: "MProfit Next — Wealth Intelligence Platform",
+    title: "Aurapex Next — Wealth Intelligence Platform",
     description: "AI-powered portfolio management for the modern Indian investor",
     type: "website",
   },

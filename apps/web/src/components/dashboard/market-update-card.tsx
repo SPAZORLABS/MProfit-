@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import type { MarketUpdate } from '@mprofit/shared';
+import type { MarketUpdate } from '@Aurapex/shared';
 import { Newspaper } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 
@@ -20,11 +20,11 @@ export function MarketUpdateCard({ update }: MarketUpdateCardProps) {
           Market Update
         </span>
       </div>
-      
+
       <h4 className="text-sm font-bold text-text-primary mb-1.5 line-clamp-2 leading-tight">
         {update.headline}
       </h4>
-      
+
       <p className="text-xs text-text-secondary leading-relaxed line-clamp-3">
         {update.summary}
       </p>

@@ -1,4 +1,4 @@
-name: MProfit Next CI
+name: Aurapex Next CI
 
 on:
   push:

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { cn } from '@/lib/utils';
-import type { AIInsight } from '@mprofit/shared';
+import type { AIInsight } from '@Aurapex/shared';
 import { Sparkles, Info, Shield, ArrowRight } from 'lucide-react';
 import { AnimatedCard } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -13,7 +13,7 @@ interface AIInsightCardProps {
 
 export function AIInsightCard({ insight }: AIInsightCardProps) {
   return (
-    <AnimatedCard 
+    <AnimatedCard
       className="p-6 bg-gradient-to-br from-brand-primary via-brand-primary to-[#2a3040] border-none shadow-xl relative overflow-hidden"
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
@@ -60,8 +60,8 @@ export function AIInsightCard({ insight }: AIInsightCardProps) {
 
       {/* CTA Button */}
       {insight.actionLabel && (
-        <Button 
-          variant="secondary" 
+        <Button
+          variant="secondary"
           className="w-full bg-white text-brand-primary hover:bg-white/90 border-none shadow-md relative z-10 group"
         >
           {insight.actionLabel}

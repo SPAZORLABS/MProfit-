@@ -38,7 +38,7 @@ let AuthService = AuthService_1 = class AuthService {
         const tenant = await this.tenantService.getTenantBySlug(dto.tenantSlug);
         const setuClientId = process.env.SETU_CLIENT_ID;
         const setuClientSecret = process.env.SETU_CLIENT_SECRET;
-        let verifiedFullName = 'MProfit User';
+        let verifiedFullName = 'Aurapex User';
         if (setuClientId && setuClientSecret) {
             try {
                 const response = await fetch('https://dg-sandbox.setu.co/api/verify/pan', {
@@ -59,7 +59,7 @@ let AuthService = AuthService_1 = class AuthService {
                     this.logger.warn(`Setu PAN verification failed: ${JSON.stringify(data)}`);
                     throw new common_1.BadRequestException('Invalid PAN provided or PAN not found');
                 }
-                verifiedFullName = data.data?.full_name || 'MProfit User';
+                verifiedFullName = data.data?.full_name || 'Aurapex User';
                 this.logger.log(`PAN verified successfully for: ${verifiedFullName}`);
             }
             catch (err) {
@@ -118,7 +118,7 @@ let AuthService = AuthService_1 = class AuthService {
             },
             create: {
                 email: `${record.pan.toLowerCase()}@example.com`,
-                name: record.fullName || 'MProfit User',
+                name: record.fullName || 'Aurapex User',
                 passwordHash: await bcrypt.hash((0, uuid_1.v4)(), 10),
                 tenantId: record.tenantId,
                 panHash: panHash,

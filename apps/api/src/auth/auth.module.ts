@@ -14,8 +14,8 @@ import { JwtStrategy } from './strategies/jwt.strategy';
     JwtModule.registerAsync({
       inject: [ConfigService],
       useFactory: (config: ConfigService) => ({
-        secret: config.get<string>('JWT_SECRET', 'super-secret-mprofit-key-for-dev'),
-        signOptions: { 
+        secret: config.get<string>('JWT_SECRET', 'super-secret-Aurapex-key-for-dev'),
+        signOptions: {
           expiresIn: config.get<string>('JWT_EXPIRES_IN', '1d') as any,
         },
       }),
@@ -25,4 +25,4 @@ import { JwtStrategy } from './strategies/jwt.strategy';
   providers: [AuthService, JwtStrategy],
   exports: [AuthService],
 })
-export class AuthModule {}
+export class AuthModule { }

@@ -63,7 +63,7 @@ export function Sidebar({ collapsed = false, onRefresh }: SidebarProps) {
         </div>
         {!collapsed && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col">
-            <h1 className="text-brand-primary font-bold text-lg leading-none tracking-tight">MProfit</h1>
+            <h1 className="text-brand-primary font-bold text-lg leading-none tracking-tight">Aurapex</h1>
             <p className="text-[10px] text-text-tertiary uppercase tracking-widest mt-1 font-semibold">
               Intelligence
             </p>
@@ -103,7 +103,7 @@ export function Sidebar({ collapsed = false, onRefresh }: SidebarProps) {
                   transition={{ type: 'spring', stiffness: 350, damping: 30 }}
                 />
               )}
-              
+
               <div className="relative z-10 flex items-center gap-3">
                 <Icon className={cn('w-4 h-4 transition-colors', isActive ? 'text-brand-blue' : 'text-text-tertiary group-hover:text-text-secondary')} />
                 {!collapsed && <span>{item.label}</span>}

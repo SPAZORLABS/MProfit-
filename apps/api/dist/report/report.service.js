@@ -70,7 +70,7 @@ let ReportService = ReportService_1 = class ReportService {
                     where: { id: reportId },
                     data: {
                         status: client_1.ReportStatus.COMPLETED,
-                        fileUrl: `https://mprofit-mock-storage.s3.amazonaws.com/reports/${reportId}.pdf`,
+                        fileUrl: `https://Aurapex-mock-storage.s3.amazonaws.com/reports/${reportId}.pdf`,
                         generatedAt: new Date(),
                     }
                 });

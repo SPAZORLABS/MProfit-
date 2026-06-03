@@ -2,11 +2,11 @@
 
 import React from 'react';
 import { cn } from '@/lib/utils';
-import { formatCompactINR } from '@mprofit/shared';
+import { formatCompactINR } from '@Aurapex/shared';
 import {
   mockScenarioVariables,
 } from '@/lib/mock-data';
-import type { AIMessage, ScenarioVariable } from '@mprofit/shared';
+import type { AIMessage, ScenarioVariable } from '@Aurapex/shared';
 import { ApiClient } from '@/lib/api-client';
 import { useAuth } from '@/hooks/useAuth';
 import {
@@ -64,7 +64,7 @@ export default function AICopilotPage() {
         const portfolios = await ApiClient.getPortfolios() as any[];
         if (portfolios && portfolios.length > 0) {
           const primaryPortfolioId = portfolios[0].id;
-          
+
           // Start a new conversation
           const conv: any = await ApiClient.startCopilot(primaryPortfolioId);
           setConversationId(conv.id);
@@ -72,7 +72,7 @@ export default function AICopilotPage() {
           setMessages([{
             id: 'welcome-1',
             role: 'assistant',
-            content: 'Hello! I am MProfit AI Copilot. I have loaded your portfolio context. How can I help you optimize your wealth today?',
+            content: 'Hello! I am Aurapex AI Copilot. I have loaded your portfolio context. How can I help you optimize your wealth today?',
             createdAt: new Date().toISOString()
           }]);
         }
@@ -86,7 +86,7 @@ export default function AICopilotPage() {
 
   const handleSend = async () => {
     if (!inputValue.trim() || !conversationId || isSending) return;
-    
+
     const content = inputValue;
     const newMessage: AIMessage = {
       id: `msg-${Date.now()}`,
@@ -94,7 +94,7 @@ export default function AICopilotPage() {
       content,
       createdAt: new Date().toISOString(),
     };
-    
+
     setMessages(prev => [...prev, newMessage]);
     setInputValue('');
     setIsSending(true);

@@ -4,7 +4,7 @@ import React from 'react';
 import { usePortfolio } from '@/context/portfolio-context';
 import { ApiClient } from '@/lib/api-client';
 import { cn } from '@/lib/utils';
-import { formatCompactINR } from '@mprofit/shared';
+import { formatCompactINR } from '@Aurapex/shared';
 import {
   AlertTriangle,
   CheckCircle2,
@@ -111,8 +111,8 @@ export default function ReconciliationPage() {
     if (activeFilter === 'PENDING' && c.resolution !== 'PENDING') return false;
     if (activeFilter === 'RESOLVED' && c.resolution === 'PENDING') return false;
     if (searchQuery) {
-      return c.holding.asset.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
-             (c.notes && c.notes.toLowerCase().includes(searchQuery.toLowerCase()));
+      return c.holding.asset.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        (c.notes && c.notes.toLowerCase().includes(searchQuery.toLowerCase()));
     }
     return true;
   });
@@ -223,7 +223,7 @@ export default function ReconciliationPage() {
                         {new Date(conflict.createdAt).toLocaleDateString()}
                       </span>
                     </div>
-                    
+
                     <h3 className="text-base font-bold text-text-primary mb-1">
                       {conflict.holding.asset.name}
                     </h3>
@@ -232,7 +232,7 @@ export default function ReconciliationPage() {
                       {conflict.notes || 'Discrepancy detected in values.'}
                     </p>
                   </div>
-                  
+
                   {conflict.resolution === 'PENDING' ? (
                     <div className="flex gap-2 shrink-0 ml-4">
                       <Button variant="outline" size="sm" onClick={() => handleDismiss(conflict.id)}>
@@ -260,7 +260,7 @@ export default function ReconciliationPage() {
                           <p className="text-xs text-text-tertiary uppercase tracking-wider">{conflict.field}</p>
                           <p className="text-lg font-bold text-text-primary">{conflict.valueA}</p>
                         </div>
-                        <Button 
+                        <Button
                           size="sm"
                           variant="secondary"
                           onClick={() => handleResolve(conflict.id, conflict.valueA)}
@@ -282,7 +282,7 @@ export default function ReconciliationPage() {
                           <p className="text-xs text-text-tertiary uppercase tracking-wider">{conflict.field}</p>
                           <p className="text-lg font-bold text-text-primary">{conflict.valueB}</p>
                         </div>
-                        <Button 
+                        <Button
                           size="sm"
                           variant="secondary"
                           onClick={() => handleResolve(conflict.id, conflict.valueB)}

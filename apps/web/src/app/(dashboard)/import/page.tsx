@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { cn } from '@/lib/utils';
-import { validatePAN } from '@mprofit/shared';
+import { validatePAN } from '@Aurapex/shared';
 import { ApiClient } from '@/lib/api-client';
 import { usePortfolio } from '@/context/portfolio-context';
 import {
@@ -56,20 +56,20 @@ interface AggregationResult {
 // ─── Mock Data (client-side simulation when backend unavailable) ──
 
 const MOCK_SOURCES: SourceStatus[] = [
-  { sourceId: 'mf-cas',     sourceName: 'MF Consolidated Account Statement', sourceType: 'CAS_STATEMENT', status: 'QUEUED', recordsFound: 0 },
-  { sourceId: 'mf-central', sourceName: 'MF Central',                        sourceType: 'MF_CENTRAL',    status: 'QUEUED', recordsFound: 0 },
-  { sourceId: 'cams',       sourceName: 'CAMS (Computer Age Mgmt Services)', sourceType: 'CAMS',          status: 'QUEUED', recordsFound: 0 },
-  { sourceId: 'kfintech',   sourceName: 'KFintech',                          sourceType: 'KFINTECH',      status: 'QUEUED', recordsFound: 0 },
-  { sourceId: 'nsdl',       sourceName: 'NSDL Demat Holdings',               sourceType: 'NSDL',          status: 'QUEUED', recordsFound: 0 },
-  { sourceId: 'cdsl',       sourceName: 'CDSL Demat Holdings',               sourceType: 'CDSL',          status: 'QUEUED', recordsFound: 0 },
-  { sourceId: 'broker-api', sourceName: 'Broker-Linked Holdings',            sourceType: 'BROKER_API',    status: 'QUEUED', recordsFound: 0 },
+  { sourceId: 'mf-cas', sourceName: 'MF Consolidated Account Statement', sourceType: 'CAS_STATEMENT', status: 'QUEUED', recordsFound: 0 },
+  { sourceId: 'mf-central', sourceName: 'MF Central', sourceType: 'MF_CENTRAL', status: 'QUEUED', recordsFound: 0 },
+  { sourceId: 'cams', sourceName: 'CAMS (Computer Age Mgmt Services)', sourceType: 'CAMS', status: 'QUEUED', recordsFound: 0 },
+  { sourceId: 'kfintech', sourceName: 'KFintech', sourceType: 'KFINTECH', status: 'QUEUED', recordsFound: 0 },
+  { sourceId: 'nsdl', sourceName: 'NSDL Demat Holdings', sourceType: 'NSDL', status: 'QUEUED', recordsFound: 0 },
+  { sourceId: 'cdsl', sourceName: 'CDSL Demat Holdings', sourceType: 'CDSL', status: 'QUEUED', recordsFound: 0 },
+  { sourceId: 'broker-api', sourceName: 'Broker-Linked Holdings', sourceType: 'BROKER_API', status: 'QUEUED', recordsFound: 0 },
 ];
 
 const IMPORT_PERIODS = [
-  { id: 'last_1y',  label: 'Last 1 Year',   desc: 'Since May 2025' },
-  { id: 'last_3y',  label: 'Last 3 Years',  desc: 'Since May 2023' },
-  { id: 'last_5y',  label: 'Last 5 Years',  desc: 'Since May 2021' },
-  { id: 'all_time', label: 'All Time',       desc: 'Complete history' },
+  { id: 'last_1y', label: 'Last 1 Year', desc: 'Since May 2025' },
+  { id: 'last_3y', label: 'Last 3 Years', desc: 'Since May 2023' },
+  { id: 'last_5y', label: 'Last 5 Years', desc: 'Since May 2021' },
+  { id: 'all_time', label: 'All Time', desc: 'Complete history' },
 ];
 
 // ─── Page Component ───────────────────────────────────────────────
@@ -93,7 +93,7 @@ export default function ImportPage() {
   const [isDragging, setIsDragging] = React.useState(false);
   const [selectedFile, setSelectedFile] = React.useState<File | null>(null);
   const [uploadStatus, setUploadStatus] = React.useState<'idle' | 'uploading' | 'success' | 'error'>('idle');
-  
+
   // Registry state
   const [connectors, setConnectors] = React.useState<any[]>([]);
   const [searchQuery, setSearchQuery] = React.useState('');
@@ -355,272 +355,272 @@ export default function ImportPage() {
             </div>
           )}
 
-      {/* ───── Step 1: Configure ───── */}
-      {currentStep === 'configure' && (
-        <div className="max-w-2xl mx-auto space-y-6">
-          {/* PAN Input Card */}
-          <Card className="p-8">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 rounded-lg bg-brand-green/10 flex items-center justify-center">
-                <ShieldCheck className="w-5 h-5 text-brand-green" />
-              </div>
-              <div>
-                <h2 className="text-lg font-bold text-text-primary">PAN Verification</h2>
-                <p className="text-xs text-text-secondary">Your PAN is used to fetch data from government-linked repositories</p>
-              </div>
-            </div>
-
-            <div className="mb-6">
-              <label className="block text-sm font-medium text-text-primary mb-2">
-                Permanent Account Number (PAN)
-              </label>
-              <Input
-                type="text"
-                value={pan}
-                onChange={handlePanChange}
-                placeholder="ABCDE1234F"
-                maxLength={10}
-                error={!!panError}
-                className="font-mono tracking-widest uppercase h-12 text-base"
-              />
-              {panError && (
-                <p className="text-xs text-loss mt-1.5 animate-slide-down">{panError}</p>
-              )}
-            </div>
-
-            {/* FR-4.2: Import Period Selection */}
-            <div className="mb-6">
-              <label className="block text-sm font-medium text-text-primary mb-3">
-                Import Period
-              </label>
-              <div className="grid grid-cols-2 gap-3">
-                {IMPORT_PERIODS.map(period => (
-                  <button
-                    key={period.id}
-                    onClick={() => setSelectedPeriod(period.id)}
-                    className={cn(
-                      'p-3 rounded-lg border text-left transition-all duration-200',
-                      selectedPeriod === period.id
-                        ? 'border-brand-green bg-brand-green/5 ring-1 ring-brand-green/20'
-                        : 'border-border hover:border-border-focus bg-bg'
-                    )}
-                  >
-                    <p className={cn(
-                      'text-sm font-semibold',
-                      selectedPeriod === period.id ? 'text-brand-green' : 'text-text-primary'
-                    )}>
-                      {period.label}
-                    </p>
-                    <p className="text-xs text-text-tertiary mt-0.5">{period.desc}</p>
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Sources Preview */}
-            <div className="mb-6">
-              <label className="block text-sm font-medium text-text-primary mb-3">
-                Data Sources to Aggregate
-              </label>
-              <div className="space-y-2">
-                {MOCK_SOURCES.map(source => (
-                  <div
-                    key={source.sourceId}
-                    className="flex items-center gap-3 p-3 bg-bg rounded-lg border border-border"
-                  >
-                    <div className="w-8 h-8 rounded-md bg-surface flex items-center justify-center text-text-tertiary">
-                      {getSourceIcon(source.sourceType)}
-                    </div>
-                    <div className="flex-1">
-                      <p className="text-sm font-medium text-text-primary">{source.sourceName}</p>
-                      <p className="text-[10px] text-text-tertiary uppercase tracking-wider">{source.sourceType}</p>
-                    </div>
-                    <CheckCircle2 className="w-4 h-4 text-brand-green" />
+          {/* ───── Step 1: Configure ───── */}
+          {currentStep === 'configure' && (
+            <div className="max-w-2xl mx-auto space-y-6">
+              {/* PAN Input Card */}
+              <Card className="p-8">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-10 h-10 rounded-lg bg-brand-green/10 flex items-center justify-center">
+                    <ShieldCheck className="w-5 h-5 text-brand-green" />
                   </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Start Button */}
-            <Button
-              onClick={handleStartAggregation}
-              disabled={pan.length !== 10}
-              isLoading={isSubmitting}
-              className="w-full h-12"
-            >
-              {!isSubmitting && <Database className="w-4 h-4 mr-2" />}
-              Start PAN Aggregation
-            </Button>
-          </Card>
-        </div>
-      )}
-
-      {/* ───── Step 2: Aggregating ───── */}
-      {currentStep === 'aggregating' && (
-        <div className="max-w-2xl mx-auto space-y-4">
-          <Card className="p-6">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 rounded-lg bg-brand-blue/10 flex items-center justify-center">
-                <RefreshCw className="w-5 h-5 text-brand-blue animate-spin" />
-              </div>
-              <div>
-                <h2 className="text-lg font-bold text-text-primary">Aggregating Data</h2>
-                <p className="text-xs text-text-secondary">
-                  Fetching records from {MOCK_SOURCES.length} sources for PAN {pan.substring(0, 5)}****{pan.substring(9)}
-                </p>
-              </div>
-            </div>
-
-            {/* Per-source status list */}
-            <div className="space-y-3">
-              {sources.map((source, i) => (
-                <div
-                  key={source.sourceId}
-                  className={cn(
-                    'flex items-center gap-4 p-4 rounded-xl border transition-all duration-500',
-                    source.status === 'COMPLETED' ? 'border-gain/20 bg-gain/5' :
-                    source.status === 'FAILED' ? 'border-loss/20 bg-loss/5' :
-                    'border-border bg-bg'
-                  )}
-                  style={{ animationDelay: `${i * 80}ms` }}
-                >
-                  <div className={cn(
-                    'w-10 h-10 rounded-lg flex items-center justify-center shrink-0',
-                    source.status === 'COMPLETED' ? 'bg-gain/10 text-gain' :
-                    source.status === 'FAILED' ? 'bg-loss/10 text-loss' :
-                    'bg-surface text-text-tertiary'
-                  )}>
-                    {getSourceIcon(source.sourceType)}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-semibold text-text-primary truncate">{source.sourceName}</p>
-                    {source.status === 'COMPLETED' && (
-                      <p className="text-xs text-gain mt-0.5">{source.recordsFound} records imported</p>
-                    )}
-                    {source.status === 'FAILED' && source.errorMessage && (
-                      <p className="text-xs text-loss mt-0.5">{source.errorMessage}</p>
-                    )}
-                    {source.status === 'QUEUED' && (
-                      <p className="text-xs text-text-tertiary mt-0.5">Waiting in queue...</p>
-                    )}
-                  </div>
-                  <div className="shrink-0">
-                    {getStatusBadge(source.status)}
+                  <div>
+                    <h2 className="text-lg font-bold text-text-primary">PAN Verification</h2>
+                    <p className="text-xs text-text-secondary">Your PAN is used to fetch data from government-linked repositories</p>
                   </div>
                 </div>
-              ))}
-            </div>
-          </Card>
-        </div>
-      )}
 
-      {/* ───── Step 3: Complete ───── */}
-      {currentStep === 'complete' && (
-        <div className="max-w-2xl mx-auto space-y-6 animate-fade-in">
-          {/* Summary Card */}
-          <Card className="p-8 text-center">
-            <div className={cn(
-              'w-16 h-16 rounded-full mx-auto mb-6 flex items-center justify-center',
-              overallStatus === 'COMPLETED' ? 'bg-gain/10' : 'bg-orange-500/10'
-            )}>
-              {overallStatus === 'COMPLETED' ? (
-                <CheckCircle2 className="w-8 h-8 text-gain animate-scale-in" />
-              ) : (
-                <AlertTriangle className="w-8 h-8 text-orange-400 animate-scale-in" />
-              )}
-            </div>
+                <div className="mb-6">
+                  <label className="block text-sm font-medium text-text-primary mb-2">
+                    Permanent Account Number (PAN)
+                  </label>
+                  <Input
+                    type="text"
+                    value={pan}
+                    onChange={handlePanChange}
+                    placeholder="ABCDE1234F"
+                    maxLength={10}
+                    error={!!panError}
+                    className="font-mono tracking-widest uppercase h-12 text-base"
+                  />
+                  {panError && (
+                    <p className="text-xs text-loss mt-1.5 animate-slide-down">{panError}</p>
+                  )}
+                </div>
 
-            <h2 className="text-xl font-bold text-text-primary mb-2">
-              {overallStatus === 'COMPLETED' ? 'Aggregation Complete' : 'Aggregation Completed with Warnings'}
-            </h2>
-            <p className="text-sm text-text-secondary mb-8">
-              {overallStatus === 'COMPLETED'
-                ? `All ${successCount} sources synced successfully.`
-                : `${successCount} of ${MOCK_SOURCES.length} sources synced. ${failCount} source(s) failed.`}
-            </p>
+                {/* FR-4.2: Import Period Selection */}
+                <div className="mb-6">
+                  <label className="block text-sm font-medium text-text-primary mb-3">
+                    Import Period
+                  </label>
+                  <div className="grid grid-cols-2 gap-3">
+                    {IMPORT_PERIODS.map(period => (
+                      <button
+                        key={period.id}
+                        onClick={() => setSelectedPeriod(period.id)}
+                        className={cn(
+                          'p-3 rounded-lg border text-left transition-all duration-200',
+                          selectedPeriod === period.id
+                            ? 'border-brand-green bg-brand-green/5 ring-1 ring-brand-green/20'
+                            : 'border-border hover:border-border-focus bg-bg'
+                        )}
+                      >
+                        <p className={cn(
+                          'text-sm font-semibold',
+                          selectedPeriod === period.id ? 'text-brand-green' : 'text-text-primary'
+                        )}>
+                          {period.label}
+                        </p>
+                        <p className="text-xs text-text-tertiary mt-0.5">{period.desc}</p>
+                      </button>
+                    ))}
+                  </div>
+                </div>
 
-            {/* KPI row */}
-            <div className="grid grid-cols-3 gap-4 mb-8">
-              <div className="p-4 bg-bg rounded-xl border border-border">
-                <p className="text-2xl font-bold text-text-primary">{totalRecords}</p>
-                <p className="text-xs text-text-tertiary mt-1 uppercase tracking-wider">Records Found</p>
-              </div>
-              <div className="p-4 bg-bg rounded-xl border border-border">
-                <p className="text-2xl font-bold text-gain">{successCount}</p>
-                <p className="text-xs text-text-tertiary mt-1 uppercase tracking-wider">Sources OK</p>
-              </div>
-              <div className="p-4 bg-bg rounded-xl border border-border">
-                <p className={cn('text-2xl font-bold', failCount > 0 ? 'text-loss' : 'text-gain')}>{failCount}</p>
-                <p className="text-xs text-text-tertiary mt-1 uppercase tracking-wider">Sources Failed</p>
-              </div>
-            </div>
-          </Card>
-
-          {/* FR-4.3: Source Attribution Table */}
-          <Card className="overflow-hidden">
-            <div className="px-6 py-4 border-b border-border flex items-center justify-between">
-              <h3 className="text-sm font-bold text-text-primary uppercase tracking-wider">Source Attribution</h3>
-              <button className="flex items-center gap-1.5 px-3 py-1.5 border border-border rounded-lg text-xs font-medium text-text-secondary hover:bg-surface-hover transition-colors">
-                <Download className="w-3.5 h-3.5" />
-                Export
-              </button>
-            </div>
-            <table className="w-full">
-              <thead>
-                <tr className="border-b border-border bg-bg">
-                  <th className="text-left px-6 py-3 text-[11px] font-bold text-text-tertiary uppercase tracking-wider">Source</th>
-                  <th className="text-left px-6 py-3 text-[11px] font-bold text-text-tertiary uppercase tracking-wider">Type</th>
-                  <th className="text-right px-6 py-3 text-[11px] font-bold text-text-tertiary uppercase tracking-wider">Records</th>
-                  <th className="text-right px-6 py-3 text-[11px] font-bold text-text-tertiary uppercase tracking-wider">Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                {sources.map((source) => (
-                  <tr key={source.sourceId} className="border-b border-border-light last:border-b-0 hover:bg-surface-hover/50 transition-colors">
-                    <td className="px-6 py-3.5">
-                      <div className="flex items-center gap-3">
-                        <div className="w-7 h-7 rounded-md bg-bg flex items-center justify-center text-text-tertiary border border-border">
+                {/* Sources Preview */}
+                <div className="mb-6">
+                  <label className="block text-sm font-medium text-text-primary mb-3">
+                    Data Sources to Aggregate
+                  </label>
+                  <div className="space-y-2">
+                    {MOCK_SOURCES.map(source => (
+                      <div
+                        key={source.sourceId}
+                        className="flex items-center gap-3 p-3 bg-bg rounded-lg border border-border"
+                      >
+                        <div className="w-8 h-8 rounded-md bg-surface flex items-center justify-center text-text-tertiary">
                           {getSourceIcon(source.sourceType)}
                         </div>
-                        <span className="text-sm font-medium text-text-primary">{source.sourceName}</span>
+                        <div className="flex-1">
+                          <p className="text-sm font-medium text-text-primary">{source.sourceName}</p>
+                          <p className="text-[10px] text-text-tertiary uppercase tracking-wider">{source.sourceType}</p>
+                        </div>
+                        <CheckCircle2 className="w-4 h-4 text-brand-green" />
                       </div>
-                    </td>
-                    <td className="px-6 py-3.5">
-                      <span className="text-xs font-mono text-text-tertiary">{source.sourceType}</span>
-                    </td>
-                    <td className="px-6 py-3.5 text-right">
-                      <span className={cn('text-sm font-semibold', source.status === 'COMPLETED' ? 'text-text-primary' : 'text-text-muted')}>
-                        {source.status === 'COMPLETED' ? source.recordsFound : '—'}
-                      </span>
-                    </td>
-                    <td className="px-6 py-3.5 text-right">
-                      {getStatusBadge(source.status)}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </Card>
+                    ))}
+                  </div>
+                </div>
 
-          {/* Actions */}
-          <div className="flex items-center justify-center gap-4">
-            <button
-              onClick={() => { setCurrentStep('configure'); setSources([]); }}
-              className="flex items-center gap-2 px-6 py-3 border border-border rounded-lg text-sm font-semibold text-text-secondary hover:bg-surface-hover transition-colors"
-            >
-              <RefreshCw className="w-4 h-4" />
-              Re-Import
-            </button>
-            <a
-              href="/dashboard"
-              className="flex items-center gap-2 px-6 py-3 bg-brand-green text-white rounded-lg text-sm font-semibold hover:bg-brand-green-dark transition-colors"
-            >
-              Go to Dashboard
-              <ArrowRight className="w-4 h-4" />
-            </a>
-          </div>
-        </div>
-      )}
+                {/* Start Button */}
+                <Button
+                  onClick={handleStartAggregation}
+                  disabled={pan.length !== 10}
+                  isLoading={isSubmitting}
+                  className="w-full h-12"
+                >
+                  {!isSubmitting && <Database className="w-4 h-4 mr-2" />}
+                  Start PAN Aggregation
+                </Button>
+              </Card>
+            </div>
+          )}
+
+          {/* ───── Step 2: Aggregating ───── */}
+          {currentStep === 'aggregating' && (
+            <div className="max-w-2xl mx-auto space-y-4">
+              <Card className="p-6">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-10 h-10 rounded-lg bg-brand-blue/10 flex items-center justify-center">
+                    <RefreshCw className="w-5 h-5 text-brand-blue animate-spin" />
+                  </div>
+                  <div>
+                    <h2 className="text-lg font-bold text-text-primary">Aggregating Data</h2>
+                    <p className="text-xs text-text-secondary">
+                      Fetching records from {MOCK_SOURCES.length} sources for PAN {pan.substring(0, 5)}****{pan.substring(9)}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Per-source status list */}
+                <div className="space-y-3">
+                  {sources.map((source, i) => (
+                    <div
+                      key={source.sourceId}
+                      className={cn(
+                        'flex items-center gap-4 p-4 rounded-xl border transition-all duration-500',
+                        source.status === 'COMPLETED' ? 'border-gain/20 bg-gain/5' :
+                          source.status === 'FAILED' ? 'border-loss/20 bg-loss/5' :
+                            'border-border bg-bg'
+                      )}
+                      style={{ animationDelay: `${i * 80}ms` }}
+                    >
+                      <div className={cn(
+                        'w-10 h-10 rounded-lg flex items-center justify-center shrink-0',
+                        source.status === 'COMPLETED' ? 'bg-gain/10 text-gain' :
+                          source.status === 'FAILED' ? 'bg-loss/10 text-loss' :
+                            'bg-surface text-text-tertiary'
+                      )}>
+                        {getSourceIcon(source.sourceType)}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-semibold text-text-primary truncate">{source.sourceName}</p>
+                        {source.status === 'COMPLETED' && (
+                          <p className="text-xs text-gain mt-0.5">{source.recordsFound} records imported</p>
+                        )}
+                        {source.status === 'FAILED' && source.errorMessage && (
+                          <p className="text-xs text-loss mt-0.5">{source.errorMessage}</p>
+                        )}
+                        {source.status === 'QUEUED' && (
+                          <p className="text-xs text-text-tertiary mt-0.5">Waiting in queue...</p>
+                        )}
+                      </div>
+                      <div className="shrink-0">
+                        {getStatusBadge(source.status)}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </Card>
+            </div>
+          )}
+
+          {/* ───── Step 3: Complete ───── */}
+          {currentStep === 'complete' && (
+            <div className="max-w-2xl mx-auto space-y-6 animate-fade-in">
+              {/* Summary Card */}
+              <Card className="p-8 text-center">
+                <div className={cn(
+                  'w-16 h-16 rounded-full mx-auto mb-6 flex items-center justify-center',
+                  overallStatus === 'COMPLETED' ? 'bg-gain/10' : 'bg-orange-500/10'
+                )}>
+                  {overallStatus === 'COMPLETED' ? (
+                    <CheckCircle2 className="w-8 h-8 text-gain animate-scale-in" />
+                  ) : (
+                    <AlertTriangle className="w-8 h-8 text-orange-400 animate-scale-in" />
+                  )}
+                </div>
+
+                <h2 className="text-xl font-bold text-text-primary mb-2">
+                  {overallStatus === 'COMPLETED' ? 'Aggregation Complete' : 'Aggregation Completed with Warnings'}
+                </h2>
+                <p className="text-sm text-text-secondary mb-8">
+                  {overallStatus === 'COMPLETED'
+                    ? `All ${successCount} sources synced successfully.`
+                    : `${successCount} of ${MOCK_SOURCES.length} sources synced. ${failCount} source(s) failed.`}
+                </p>
+
+                {/* KPI row */}
+                <div className="grid grid-cols-3 gap-4 mb-8">
+                  <div className="p-4 bg-bg rounded-xl border border-border">
+                    <p className="text-2xl font-bold text-text-primary">{totalRecords}</p>
+                    <p className="text-xs text-text-tertiary mt-1 uppercase tracking-wider">Records Found</p>
+                  </div>
+                  <div className="p-4 bg-bg rounded-xl border border-border">
+                    <p className="text-2xl font-bold text-gain">{successCount}</p>
+                    <p className="text-xs text-text-tertiary mt-1 uppercase tracking-wider">Sources OK</p>
+                  </div>
+                  <div className="p-4 bg-bg rounded-xl border border-border">
+                    <p className={cn('text-2xl font-bold', failCount > 0 ? 'text-loss' : 'text-gain')}>{failCount}</p>
+                    <p className="text-xs text-text-tertiary mt-1 uppercase tracking-wider">Sources Failed</p>
+                  </div>
+                </div>
+              </Card>
+
+              {/* FR-4.3: Source Attribution Table */}
+              <Card className="overflow-hidden">
+                <div className="px-6 py-4 border-b border-border flex items-center justify-between">
+                  <h3 className="text-sm font-bold text-text-primary uppercase tracking-wider">Source Attribution</h3>
+                  <button className="flex items-center gap-1.5 px-3 py-1.5 border border-border rounded-lg text-xs font-medium text-text-secondary hover:bg-surface-hover transition-colors">
+                    <Download className="w-3.5 h-3.5" />
+                    Export
+                  </button>
+                </div>
+                <table className="w-full">
+                  <thead>
+                    <tr className="border-b border-border bg-bg">
+                      <th className="text-left px-6 py-3 text-[11px] font-bold text-text-tertiary uppercase tracking-wider">Source</th>
+                      <th className="text-left px-6 py-3 text-[11px] font-bold text-text-tertiary uppercase tracking-wider">Type</th>
+                      <th className="text-right px-6 py-3 text-[11px] font-bold text-text-tertiary uppercase tracking-wider">Records</th>
+                      <th className="text-right px-6 py-3 text-[11px] font-bold text-text-tertiary uppercase tracking-wider">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {sources.map((source) => (
+                      <tr key={source.sourceId} className="border-b border-border-light last:border-b-0 hover:bg-surface-hover/50 transition-colors">
+                        <td className="px-6 py-3.5">
+                          <div className="flex items-center gap-3">
+                            <div className="w-7 h-7 rounded-md bg-bg flex items-center justify-center text-text-tertiary border border-border">
+                              {getSourceIcon(source.sourceType)}
+                            </div>
+                            <span className="text-sm font-medium text-text-primary">{source.sourceName}</span>
+                          </div>
+                        </td>
+                        <td className="px-6 py-3.5">
+                          <span className="text-xs font-mono text-text-tertiary">{source.sourceType}</span>
+                        </td>
+                        <td className="px-6 py-3.5 text-right">
+                          <span className={cn('text-sm font-semibold', source.status === 'COMPLETED' ? 'text-text-primary' : 'text-text-muted')}>
+                            {source.status === 'COMPLETED' ? source.recordsFound : '—'}
+                          </span>
+                        </td>
+                        <td className="px-6 py-3.5 text-right">
+                          {getStatusBadge(source.status)}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </Card>
+
+              {/* Actions */}
+              <div className="flex items-center justify-center gap-4">
+                <button
+                  onClick={() => { setCurrentStep('configure'); setSources([]); }}
+                  className="flex items-center gap-2 px-6 py-3 border border-border rounded-lg text-sm font-semibold text-text-secondary hover:bg-surface-hover transition-colors"
+                >
+                  <RefreshCw className="w-4 h-4" />
+                  Re-Import
+                </button>
+                <a
+                  href="/dashboard"
+                  className="flex items-center gap-2 px-6 py-3 bg-brand-green text-white rounded-lg text-sm font-semibold hover:bg-brand-green-dark transition-colors"
+                >
+                  Go to Dashboard
+                  <ArrowRight className="w-4 h-4" />
+                </a>
+              </div>
+            </div>
+          )}
         </div>
       )}
 

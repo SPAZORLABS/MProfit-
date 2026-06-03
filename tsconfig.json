@@ -1,7 +1,11 @@
 {
   "compilerOptions": {
     "target": "ES2022",
-    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "lib": [
+      "ES2022",
+      "DOM",
+      "DOM.Iterable"
+    ],
     "module": "ESNext",
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
@@ -17,11 +21,24 @@
     "declarationMap": true,
     "sourceMap": true,
     "paths": {
-      "@mprofit/shared": ["./packages/shared/src"],
-      "@mprofit/shared/*": ["./packages/shared/src/*"],
-      "@mprofit/ui": ["./packages/ui/src"],
-      "@mprofit/ui/*": ["./packages/ui/src/*"]
+      "@Aurapex/shared": [
+        "./packages/shared/src"
+      ],
+      "@Aurapex/shared/*": [
+        "./packages/shared/src/*"
+      ],
+      "@Aurapex/ui": [
+        "./packages/ui/src"
+      ],
+      "@Aurapex/ui/*": [
+        "./packages/ui/src/*"
+      ]
     }
   },
-  "exclude": ["node_modules", "dist", ".next", ".turbo"]
+  "exclude": [
+    "node_modules",
+    "dist",
+    ".next",
+    ".turbo"
+  ]
 }

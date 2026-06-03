@@ -56,20 +56,20 @@ export declare class AiController {
     }>;
     sendMessage(req: any, id: string, content: string): Promise<{
         id: string;
-        createdAt: Date;
         role: string;
-        metadata: import("@prisma/client/runtime/library").JsonValue;
+        createdAt: Date;
         content: string;
+        metadata: import("@prisma/client/runtime/library").JsonValue;
         tokenCount: number | null;
         conversationId: string;
     }>;
     getConversation(req: any, id: string): Promise<{
         messages: {
             id: string;
-            createdAt: Date;
             role: string;
-            metadata: import("@prisma/client/runtime/library").JsonValue;
+            createdAt: Date;
             content: string;
+            metadata: import("@prisma/client/runtime/library").JsonValue;
             tokenCount: number | null;
             conversationId: string;
         }[];

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { cn } from '@/lib/utils';
-import { formatCurrency, formatPercent, getInitials } from '@mprofit/shared';
+import { formatCurrency, formatPercent, getInitials } from '@Aurapex/shared';
 import { ExternalLink, ArrowRight } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -40,13 +40,13 @@ export function HoldingsTable({ holdings }: HoldingsTableProps) {
               const name = holding.assetName || holding.asset?.name || 'Unknown';
               const ticker = holding.ticker || holding.asset?.symbol || holding.asset?.ticker || 'UNK';
               const initials = getInitials(name);
-              
+
               const dayChangePct = holding.dayChangePercent ?? holding.dayChange?.percentage ?? 0;
               const isGain = dayChangePct >= 0;
-              
+
               const avgPrice = holding.avgCost ?? holding.averageCost ?? 0;
               const currentPrice = holding.currentPrice ?? holding.asset?.currentPrice ?? 0;
-              
+
               const totalGain = holding.totalReturn ?? holding.unrealizedGain ?? ((currentPrice - avgPrice) * holding.quantity);
 
               return (

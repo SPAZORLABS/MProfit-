@@ -15,20 +15,20 @@ export declare class CopilotService {
     }>;
     sendMessage(conversationId: string, content: string, userId: string): Promise<{
         id: string;
-        createdAt: Date;
         role: string;
-        metadata: import("@prisma/client/runtime/library").JsonValue;
+        createdAt: Date;
         content: string;
+        metadata: import("@prisma/client/runtime/library").JsonValue;
         tokenCount: number | null;
         conversationId: string;
     }>;
     getConversationHistory(conversationId: string, userId: string): Promise<{
         messages: {
             id: string;
-            createdAt: Date;
             role: string;
-            metadata: import("@prisma/client/runtime/library").JsonValue;
+            createdAt: Date;
             content: string;
+            metadata: import("@prisma/client/runtime/library").JsonValue;
             tokenCount: number | null;
             conversationId: string;
         }[];

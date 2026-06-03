@@ -1,5 +1,5 @@
 // ════════════════════════════════════════════════════════════════
-// MProfit Next — Shared Types, Constants & Utilities
+// Aurapex Next — Shared Types, Constants & Utilities
 // ════════════════════════════════════════════════════════════════
 
 export * from './types';

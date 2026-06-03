@@ -64,7 +64,8 @@ let CopilotService = CopilotService_1 = class CopilotService {
                     take: 10
                 });
                 const messages = [
-                    { role: 'system', content: `You are MProfit AI Copilot, a professional wealth management advisor. The user has a portfolio with the following holdings: \n\n${JSON.stringify(portfolio?.holdings.map(h => ({ name: h.asset.name, quantity: h.quantity, averageCost: h.averageCost })), null, 2)}\n\nProvide concise, professional, and actionable advice. Never suggest executable actions or guarantee returns. You MUST output a JSON object matching this schema exactly:
+                    {
+                        role: 'system', content: `You are Aurapex AI Copilot, a professional wealth management advisor. The user has a portfolio with the following holdings: \n\n${JSON.stringify(portfolio?.holdings.map(h => ({ name: h.asset.name, quantity: h.quantity, averageCost: h.averageCost })), null, 2)}\n\nProvide concise, professional, and actionable advice. Never suggest executable actions or guarantee returns. You MUST output a JSON object matching this schema exactly:
 {
   "type": "copilot",
   "text": "Your conversational response",
@@ -74,7 +75,8 @@ let CopilotService = CopilotService_1 = class CopilotService {
   "assumptions_used": ["assumption A"],
   "estimated_impact": "None",
   "advisory_disclaimer": "Not financial advice."
-}` },
+}`
+                    },
                     ...history.map(m => ({ role: m.role, content: m.content }))
                 ];
                 const completion = await this.groq.chat.completions.create({
@@ -97,7 +99,7 @@ let CopilotService = CopilotService_1 = class CopilotService {
                 responseContent = "Based on your portfolio's current asset allocation, your equity exposure is slightly above your target of 70%. I recommend reviewing your recent SIPs or considering rebalancing your large-cap holdings.";
             }
             else {
-                responseContent = "This is a mocked AI response. In production, this would provide deep context-aware insights regarding your MProfit portfolio.";
+                responseContent = "This is a mocked AI response. In production, this would provide deep context-aware insights regarding your Aurapex portfolio.";
             }
         }
         const aiMessage = await this.prisma.aIMessage.create({

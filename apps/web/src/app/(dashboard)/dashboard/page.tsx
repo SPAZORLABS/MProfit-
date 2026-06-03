@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { cn } from '@/lib/utils';
-import { formatCompactINR, formatCurrency, formatPercent } from '@mprofit/shared';
+import { formatCompactINR, formatCurrency, formatPercent } from '@Aurapex/shared';
 import {
   mockDashboardSummary,
   mockMarketUpdates,
@@ -40,7 +40,7 @@ export default function DashboardPage() {
 
   React.useEffect(() => {
     if (authLoading) return;
-    
+
     // If not authenticated, the useAuth hook (or a middleware) should redirect, but we safeguard here
     if (!isAuthenticated) return;
 
@@ -50,7 +50,7 @@ export default function DashboardPage() {
         if (portfolios && portfolios.length > 0) {
           // Fetch summary for the primary portfolio
           const data: any = await ApiClient.getPortfolioSummary(portfolios[0].id);
-          
+
           // Fetch real AI insights
           try {
             const fetchedInsights: any = await ApiClient.getInsights(portfolios[0].id);
@@ -147,7 +147,7 @@ export default function DashboardPage() {
   }
 
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}

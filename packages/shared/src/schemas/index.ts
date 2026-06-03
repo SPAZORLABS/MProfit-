@@ -1,5 +1,5 @@
 // ════════════════════════════════════════════════════════════════
-// MProfit Next — Zod Validation Schemas
+// Aurapex Next — Zod Validation Schemas
 // ════════════════════════════════════════════════════════════════
 
 import { z } from 'zod';

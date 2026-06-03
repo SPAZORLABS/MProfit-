@@ -2,8 +2,8 @@
 
 import React from 'react';
 import { cn } from '@/lib/utils';
-import { formatCompactINR } from '@mprofit/shared';
-import type { AssetAllocation } from '@mprofit/shared';
+import { formatCompactINR } from '@Aurapex/shared';
+import type { AssetAllocation } from '@Aurapex/shared';
 import {
   PieChart,
   Pie,

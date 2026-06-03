@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@apollo/server": "^4.12.0",
-    "@mprofit/shared": "*",
+    "@Aurapex/shared": "*",
     "@nestjs/apollo": "^13.0.0",
     "@nestjs/bullmq": "^11.0.0",
     "@nestjs/cache-manager": "^3.0.0",

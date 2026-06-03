@@ -48,7 +48,7 @@ export class CopilotService {
     // 3. Process RAG + LLM call
     let responseContent = "I'm currently running in offline mock mode. Please configure OPENAI_API_KEY in the backend to access live intelligence.";
     let metadata: any = {};
-    
+
     if (this.groq) {
       try {
         // Fetch context
@@ -65,7 +65,8 @@ export class CopilotService {
         });
 
         const messages: any[] = [
-          { role: 'system', content: `You are MProfit AI Copilot, a professional wealth management advisor. The user has a portfolio with the following holdings: \n\n${JSON.stringify(portfolio?.holdings.map(h => ({ name: h.asset.name, quantity: h.quantity, averageCost: h.averageCost })), null, 2)}\n\nProvide concise, professional, and actionable advice. Never suggest executable actions or guarantee returns. You MUST output a JSON object matching this schema exactly:
+          {
+            role: 'system', content: `You are Aurapex AI Copilot, a professional wealth management advisor. The user has a portfolio with the following holdings: \n\n${JSON.stringify(portfolio?.holdings.map(h => ({ name: h.asset.name, quantity: h.quantity, averageCost: h.averageCost })), null, 2)}\n\nProvide concise, professional, and actionable advice. Never suggest executable actions or guarantee returns. You MUST output a JSON object matching this schema exactly:
 {
   "type": "copilot",
   "text": "Your conversational response",
@@ -88,7 +89,7 @@ export class CopilotService {
         const rawContent = completion.choices[0]?.message?.content;
         const parsed = JSON.parse(rawContent || '{}');
         responseContent = parsed.text || "I'm sorry, I couldn't generate a proper response.";
-        
+
         // Optionally save the full structured output to the message metadata
         metadata = parsed;
       } catch (error: any) {
@@ -100,7 +101,7 @@ export class CopilotService {
       if (content.toLowerCase().includes('allocate') || content.toLowerCase().includes('equity')) {
         responseContent = "Based on your portfolio's current asset allocation, your equity exposure is slightly above your target of 70%. I recommend reviewing your recent SIPs or considering rebalancing your large-cap holdings.";
       } else {
-        responseContent = "This is a mocked AI response. In production, this would provide deep context-aware insights regarding your MProfit portfolio.";
+        responseContent = "This is a mocked AI response. In production, this would provide deep context-aware insights regarding your Aurapex portfolio.";
       }
     }
 

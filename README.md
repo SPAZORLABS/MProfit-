@@ -1,4 +1,4 @@
-# MProfit Next
+# Aurapex Next
 
 A modern monorepo application managed with [Turborepo](https://turbo.build/repo/docs).
 
