@@ -27,7 +27,7 @@ import {
   Check,
   Globe,
 } from 'lucide-react';
-import { Card } from '@/components/ui/card';
+import { Card, AnimatedCard } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
@@ -239,13 +239,13 @@ export default function ImportPage() {
   const getStatusBadge = (status: SourceStatus['status']) => {
     switch (status) {
       case 'COMPLETED':
-        return <span className="flex items-center gap-1.5 text-xs font-semibold text-gain"><CheckCircle2 className="w-3.5 h-3.5" /> Synced</span>;
+        return <span className="flex items-center gap-1.5 text-xs font-bold text-gain"><CheckCircle2 className="w-3.5 h-3.5" /> Synced</span>;
       case 'FAILED':
-        return <span className="flex items-center gap-1.5 text-xs font-semibold text-loss"><XCircle className="w-3.5 h-3.5" /> Failed</span>;
+        return <span className="flex items-center gap-1.5 text-xs font-bold text-loss"><XCircle className="w-3.5 h-3.5" /> Failed</span>;
       case 'QUEUED':
-        return <span className="flex items-center gap-1.5 text-xs font-semibold text-text-tertiary"><Clock className="w-3.5 h-3.5" /> Queued</span>;
+        return <span className="flex items-center gap-1.5 text-xs font-bold text-text-tertiary"><Clock className="w-3.5 h-3.5" /> Queued</span>;
       default:
-        return <span className="flex items-center gap-1.5 text-xs font-semibold text-brand-blue"><Loader2 className="w-3.5 h-3.5 animate-spin" /> Fetching</span>;
+        return <span className="flex items-center gap-1.5 text-xs font-bold text-brand-blue"><Loader2 className="w-3.5 h-3.5 animate-spin" /> Fetching</span>;
     }
   };
 
@@ -305,19 +305,19 @@ export default function ImportPage() {
   // ─── Render ──────────────────────────────────────────────────
 
   return (
-    <div className="p-6 space-y-6 animate-fade-in max-w-5xl mx-auto">
+    <div className="space-y-6 animate-fade-in max-w-5xl mx-auto pb-12">
       {/* Header */}
-      <div className="flex items-start justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-border pb-6">
         <div>
-          <h1 className="text-2xl font-bold text-text-primary">Data Import Hub</h1>
-          <p className="text-sm text-text-secondary mt-1">
-            Aggregate your financial data using PAN, direct broker links, or document uploads.
+          <h1 className="text-3xl font-black tracking-tight text-text-primary">Data Intelligence Hub</h1>
+          <p className="text-sm font-medium text-text-secondary mt-1.5">
+            Connect your accounts and aggregate your financial data via secure APIs.
           </p>
         </div>
       </div>
 
       {/* Tabs */}
-      <div className="flex gap-1 p-1 bg-surface rounded-xl border border-border overflow-x-auto hide-scrollbar">
+      <div className="flex gap-2 p-1.5 bg-surface-muted/30 rounded-xl border border-border overflow-x-auto hide-scrollbar shadow-inner">
         {[
           { id: 'pan', label: 'PAN Aggregation', icon: ShieldCheck },
           { id: 'platform', label: 'Broker Platforms', icon: Link },
@@ -328,10 +328,10 @@ export default function ImportPage() {
             key={tab.id}
             onClick={() => setActiveTab(tab.id as any)}
             className={cn(
-              'flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 whitespace-nowrap',
+              'flex items-center gap-2 px-5 py-2.5 rounded-lg text-xs font-bold uppercase tracking-widest transition-all duration-200 whitespace-nowrap',
               activeTab === tab.id
-                ? 'bg-bg text-brand-green shadow-sm ring-1 ring-border'
-                : 'text-text-secondary hover:text-text-primary hover:bg-bg/50'
+                ? 'bg-brand-primary text-white shadow-md'
+                : 'text-text-secondary hover:text-text-primary hover:bg-surface'
             )}
           >
             <tab.icon className="w-4 h-4" />
@@ -347,7 +347,7 @@ export default function ImportPage() {
             <div className="flex justify-end">
               <button
                 onClick={() => { setCurrentStep('configure'); setSources([]); setIsSubmitting(false); }}
-                className="flex items-center gap-2 px-4 py-2 border border-border rounded-lg text-sm font-medium text-text-secondary hover:bg-surface-hover transition-colors"
+                className="flex items-center gap-2 px-4 py-2 border border-border/50 rounded-xl text-sm font-bold text-text-secondary hover:bg-surface hover:text-text-primary transition-colors bg-surface-muted/30"
               >
                 <ArrowLeft className="w-4 h-4" />
                 New Import
@@ -359,20 +359,20 @@ export default function ImportPage() {
           {currentStep === 'configure' && (
             <div className="max-w-2xl mx-auto space-y-6">
               {/* PAN Input Card */}
-              <Card className="p-8">
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="w-10 h-10 rounded-lg bg-brand-green/10 flex items-center justify-center">
-                    <ShieldCheck className="w-5 h-5 text-brand-green" />
+              <AnimatedCard className="p-8 border border-border shadow-sm rounded-2xl bg-surface">
+                <div className="flex items-center gap-4 mb-8">
+                  <div className="w-12 h-12 rounded-xl bg-brand-blue/10 flex items-center justify-center border border-brand-blue/20 shadow-sm">
+                    <ShieldCheck className="w-6 h-6 text-brand-blue" />
                   </div>
                   <div>
-                    <h2 className="text-lg font-bold text-text-primary">PAN Verification</h2>
-                    <p className="text-xs text-text-secondary">Your PAN is used to fetch data from government-linked repositories</p>
+                    <h2 className="text-xl font-bold text-text-primary">Verify Identity</h2>
+                    <p className="text-xs font-medium text-text-secondary mt-1">We use your PAN to fetch verified records directly from the registry.</p>
                   </div>
                 </div>
 
-                <div className="mb-6">
-                  <label className="block text-sm font-medium text-text-primary mb-2">
-                    Permanent Account Number (PAN)
+                <div className="mb-8">
+                  <label className="block text-xs font-bold tracking-widest uppercase text-text-tertiary mb-3">
+                    Permanent Account Number
                   </label>
                   <Input
                     type="text"
@@ -381,61 +381,61 @@ export default function ImportPage() {
                     placeholder="ABCDE1234F"
                     maxLength={10}
                     error={!!panError}
-                    className="font-mono tracking-widest uppercase h-12 text-base"
+                    className="font-mono tracking-widest uppercase h-14 text-lg bg-surface-muted/30 border-border focus-visible:ring-brand-blue rounded-xl"
                   />
                   {panError && (
-                    <p className="text-xs text-loss mt-1.5 animate-slide-down">{panError}</p>
+                    <p className="text-xs font-bold text-loss mt-2 animate-slide-down">{panError}</p>
                   )}
                 </div>
 
                 {/* FR-4.2: Import Period Selection */}
-                <div className="mb-6">
-                  <label className="block text-sm font-medium text-text-primary mb-3">
-                    Import Period
+                <div className="mb-8">
+                  <label className="block text-xs font-bold tracking-widest uppercase text-text-tertiary mb-3">
+                    Historical Data Range
                   </label>
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className="grid grid-cols-2 gap-4">
                     {IMPORT_PERIODS.map(period => (
                       <button
                         key={period.id}
                         onClick={() => setSelectedPeriod(period.id)}
                         className={cn(
-                          'p-3 rounded-lg border text-left transition-all duration-200',
+                          'p-4 rounded-xl border text-left transition-all duration-200 hover:shadow-md',
                           selectedPeriod === period.id
-                            ? 'border-brand-green bg-brand-green/5 ring-1 ring-brand-green/20'
-                            : 'border-border hover:border-border-focus bg-bg'
+                            ? 'border-brand-blue bg-brand-blue/5 shadow-[0_0_15px_rgba(10,132,255,0.1)]'
+                            : 'border-border hover:border-brand-blue/30 bg-surface'
                         )}
                       >
                         <p className={cn(
-                          'text-sm font-semibold',
-                          selectedPeriod === period.id ? 'text-brand-green' : 'text-text-primary'
+                          'text-sm font-bold',
+                          selectedPeriod === period.id ? 'text-brand-blue' : 'text-text-primary'
                         )}>
                           {period.label}
                         </p>
-                        <p className="text-xs text-text-tertiary mt-0.5">{period.desc}</p>
+                        <p className="text-xs font-medium text-text-tertiary mt-1">{period.desc}</p>
                       </button>
                     ))}
                   </div>
                 </div>
 
                 {/* Sources Preview */}
-                <div className="mb-6">
-                  <label className="block text-sm font-medium text-text-primary mb-3">
-                    Data Sources to Aggregate
+                <div className="mb-8">
+                  <label className="block text-xs font-bold tracking-widest uppercase text-text-tertiary mb-3">
+                    Verified Data Sources
                   </label>
-                  <div className="space-y-2">
+                  <div className="space-y-3">
                     {MOCK_SOURCES.map(source => (
                       <div
                         key={source.sourceId}
-                        className="flex items-center gap-3 p-3 bg-bg rounded-lg border border-border"
+                        className="flex items-center gap-4 p-4 bg-surface-muted/30 rounded-xl border border-border/50"
                       >
-                        <div className="w-8 h-8 rounded-md bg-surface flex items-center justify-center text-text-tertiary">
+                        <div className="w-10 h-10 rounded-lg bg-surface border border-border shadow-sm flex items-center justify-center text-text-secondary">
                           {getSourceIcon(source.sourceType)}
                         </div>
                         <div className="flex-1">
-                          <p className="text-sm font-medium text-text-primary">{source.sourceName}</p>
-                          <p className="text-[10px] text-text-tertiary uppercase tracking-wider">{source.sourceType}</p>
+                          <p className="text-sm font-bold text-text-primary">{source.sourceName}</p>
+                          <p className="text-[10px] font-bold text-text-tertiary uppercase tracking-wider mt-0.5">{source.sourceType}</p>
                         </div>
-                        <CheckCircle2 className="w-4 h-4 text-brand-green" />
+                        <CheckCircle2 className="w-5 h-5 text-brand-green" />
                       </div>
                     ))}
                   </div>
@@ -446,71 +446,71 @@ export default function ImportPage() {
                   onClick={handleStartAggregation}
                   disabled={pan.length !== 10}
                   isLoading={isSubmitting}
-                  className="w-full h-12"
+                  className="w-full h-14 rounded-xl text-sm font-bold uppercase tracking-widest shadow-md hover:shadow-lg transition-all"
                 >
-                  {!isSubmitting && <Database className="w-4 h-4 mr-2" />}
-                  Start PAN Aggregation
+                  {!isSubmitting && <Database className="w-5 h-5 mr-3" />}
+                  Initiate Secure Sync
                 </Button>
-              </Card>
+              </AnimatedCard>
             </div>
           )}
 
           {/* ───── Step 2: Aggregating ───── */}
           {currentStep === 'aggregating' && (
             <div className="max-w-2xl mx-auto space-y-4">
-              <Card className="p-6">
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="w-10 h-10 rounded-lg bg-brand-blue/10 flex items-center justify-center">
-                    <RefreshCw className="w-5 h-5 text-brand-blue animate-spin" />
+              <AnimatedCard className="p-8 border border-border shadow-sm rounded-2xl bg-surface">
+                <div className="flex items-center gap-4 mb-8">
+                  <div className="w-12 h-12 rounded-xl bg-brand-blue/10 flex items-center justify-center border border-brand-blue/20">
+                    <RefreshCw className="w-6 h-6 text-brand-blue animate-spin" />
                   </div>
                   <div>
-                    <h2 className="text-lg font-bold text-text-primary">Aggregating Data</h2>
-                    <p className="text-xs text-text-secondary">
-                      Fetching records from {MOCK_SOURCES.length} sources for PAN {pan.substring(0, 5)}****{pan.substring(9)}
+                    <h2 className="text-xl font-bold text-text-primary">Syncing Intelligence...</h2>
+                    <p className="text-xs font-medium text-text-secondary mt-1">
+                      Querying {MOCK_SOURCES.length} sources for PAN {pan.substring(0, 5)}****{pan.substring(9)}
                     </p>
                   </div>
                 </div>
 
                 {/* Per-source status list */}
-                <div className="space-y-3">
+                <div className="space-y-4">
                   {sources.map((source, i) => (
                     <div
                       key={source.sourceId}
                       className={cn(
-                        'flex items-center gap-4 p-4 rounded-xl border transition-all duration-500',
-                        source.status === 'COMPLETED' ? 'border-gain/20 bg-gain/5' :
-                          source.status === 'FAILED' ? 'border-loss/20 bg-loss/5' :
-                            'border-border bg-bg'
+                        'flex items-center gap-5 p-5 rounded-xl border transition-all duration-500 shadow-sm',
+                        source.status === 'COMPLETED' ? 'border-brand-green/30 bg-brand-green/5' :
+                          source.status === 'FAILED' ? 'border-brand-red/30 bg-brand-red/5' :
+                            'border-border bg-surface-muted/30'
                       )}
                       style={{ animationDelay: `${i * 80}ms` }}
                     >
                       <div className={cn(
-                        'w-10 h-10 rounded-lg flex items-center justify-center shrink-0',
-                        source.status === 'COMPLETED' ? 'bg-gain/10 text-gain' :
-                          source.status === 'FAILED' ? 'bg-loss/10 text-loss' :
-                            'bg-surface text-text-tertiary'
+                        'w-10 h-10 rounded-lg flex items-center justify-center shrink-0 border shadow-sm',
+                        source.status === 'COMPLETED' ? 'bg-surface border-brand-green/20 text-brand-green' :
+                          source.status === 'FAILED' ? 'bg-surface border-brand-red/20 text-brand-red' :
+                            'bg-surface border-border text-text-tertiary'
                       )}>
                         {getSourceIcon(source.sourceType)}
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm font-semibold text-text-primary truncate">{source.sourceName}</p>
+                        <p className="text-sm font-bold text-text-primary truncate">{source.sourceName}</p>
                         {source.status === 'COMPLETED' && (
-                          <p className="text-xs text-gain mt-0.5">{source.recordsFound} records imported</p>
+                          <p className="text-xs font-semibold text-gain mt-1">{source.recordsFound} records imported</p>
                         )}
                         {source.status === 'FAILED' && source.errorMessage && (
-                          <p className="text-xs text-loss mt-0.5">{source.errorMessage}</p>
+                          <p className="text-xs font-semibold text-loss mt-1">{source.errorMessage}</p>
                         )}
                         {source.status === 'QUEUED' && (
-                          <p className="text-xs text-text-tertiary mt-0.5">Waiting in queue...</p>
+                          <p className="text-xs font-medium text-text-tertiary mt-1">Waiting in queue...</p>
                         )}
                       </div>
-                      <div className="shrink-0">
+                      <div className="shrink-0 bg-surface px-3 py-1.5 rounded-lg border border-border shadow-sm">
                         {getStatusBadge(source.status)}
                       </div>
                     </div>
                   ))}
                 </div>
-              </Card>
+              </AnimatedCard>
             </div>
           )}
 
@@ -518,104 +518,108 @@ export default function ImportPage() {
           {currentStep === 'complete' && (
             <div className="max-w-2xl mx-auto space-y-6 animate-fade-in">
               {/* Summary Card */}
-              <Card className="p-8 text-center">
+              <AnimatedCard className="p-8 text-center border border-border shadow-sm rounded-2xl bg-gradient-to-br from-surface to-surface-muted">
                 <div className={cn(
-                  'w-16 h-16 rounded-full mx-auto mb-6 flex items-center justify-center',
-                  overallStatus === 'COMPLETED' ? 'bg-gain/10' : 'bg-orange-500/10'
+                  'w-20 h-20 rounded-full mx-auto mb-6 flex items-center justify-center shadow-lg border',
+                  overallStatus === 'COMPLETED' ? 'bg-brand-green/10 border-brand-green/20' : 'bg-brand-amber/10 border-brand-amber/20'
                 )}>
                   {overallStatus === 'COMPLETED' ? (
-                    <CheckCircle2 className="w-8 h-8 text-gain animate-scale-in" />
+                    <CheckCircle2 className="w-10 h-10 text-brand-green animate-scale-in" />
                   ) : (
-                    <AlertTriangle className="w-8 h-8 text-orange-400 animate-scale-in" />
+                    <AlertTriangle className="w-10 h-10 text-brand-amber animate-scale-in" />
                   )}
                 </div>
 
-                <h2 className="text-xl font-bold text-text-primary mb-2">
-                  {overallStatus === 'COMPLETED' ? 'Aggregation Complete' : 'Aggregation Completed with Warnings'}
+                <h2 className="text-2xl font-black text-text-primary tracking-tight mb-2">
+                  {overallStatus === 'COMPLETED' ? 'Sync Successful' : 'Sync Partially Completed'}
                 </h2>
-                <p className="text-sm text-text-secondary mb-8">
+                <p className="text-sm font-medium text-text-secondary mb-8">
                   {overallStatus === 'COMPLETED'
-                    ? `All ${successCount} sources synced successfully.`
-                    : `${successCount} of ${MOCK_SOURCES.length} sources synced. ${failCount} source(s) failed.`}
+                    ? `Successfully synchronized all ${successCount} intelligence sources.`
+                    : `Synchronized ${successCount} of ${MOCK_SOURCES.length} sources. ${failCount} source(s) require attention.`}
                 </p>
 
                 {/* KPI row */}
                 <div className="grid grid-cols-3 gap-4 mb-8">
-                  <div className="p-4 bg-bg rounded-xl border border-border">
-                    <p className="text-2xl font-bold text-text-primary">{totalRecords}</p>
-                    <p className="text-xs text-text-tertiary mt-1 uppercase tracking-wider">Records Found</p>
+                  <div className="p-5 bg-surface rounded-xl border border-border shadow-sm">
+                    <p className="text-3xl font-black text-text-primary tracking-tight">{totalRecords}</p>
+                    <p className="text-[10px] font-bold text-text-tertiary mt-2 uppercase tracking-widest">Records Found</p>
                   </div>
-                  <div className="p-4 bg-bg rounded-xl border border-border">
-                    <p className="text-2xl font-bold text-gain">{successCount}</p>
-                    <p className="text-xs text-text-tertiary mt-1 uppercase tracking-wider">Sources OK</p>
+                  <div className="p-5 bg-surface rounded-xl border border-border shadow-sm">
+                    <p className="text-3xl font-black text-brand-green tracking-tight">{successCount}</p>
+                    <p className="text-[10px] font-bold text-text-tertiary mt-2 uppercase tracking-widest">Sources Linked</p>
                   </div>
-                  <div className="p-4 bg-bg rounded-xl border border-border">
-                    <p className={cn('text-2xl font-bold', failCount > 0 ? 'text-loss' : 'text-gain')}>{failCount}</p>
-                    <p className="text-xs text-text-tertiary mt-1 uppercase tracking-wider">Sources Failed</p>
+                  <div className="p-5 bg-surface rounded-xl border border-border shadow-sm">
+                    <p className={cn('text-3xl font-black tracking-tight', failCount > 0 ? 'text-loss' : 'text-text-secondary')}>{failCount}</p>
+                    <p className="text-[10px] font-bold text-text-tertiary mt-2 uppercase tracking-widest">Failures</p>
                   </div>
                 </div>
-              </Card>
+              </AnimatedCard>
 
               {/* FR-4.3: Source Attribution Table */}
-              <Card className="overflow-hidden">
-                <div className="px-6 py-4 border-b border-border flex items-center justify-between">
-                  <h3 className="text-sm font-bold text-text-primary uppercase tracking-wider">Source Attribution</h3>
-                  <button className="flex items-center gap-1.5 px-3 py-1.5 border border-border rounded-lg text-xs font-medium text-text-secondary hover:bg-surface-hover transition-colors">
+              <AnimatedCard className="overflow-hidden border border-border shadow-sm rounded-2xl bg-surface">
+                <div className="px-6 py-5 border-b border-border flex items-center justify-between bg-surface-muted/30">
+                  <h3 className="text-xs font-bold text-text-primary uppercase tracking-widest">Attribution Log</h3>
+                  <button className="flex items-center gap-2 px-3 py-1.5 border border-border/50 bg-surface rounded-lg text-xs font-bold text-text-secondary hover:bg-surface-hover hover:text-text-primary transition-colors shadow-sm">
                     <Download className="w-3.5 h-3.5" />
-                    Export
+                    Export Log
                   </button>
                 </div>
-                <table className="w-full">
-                  <thead>
-                    <tr className="border-b border-border bg-bg">
-                      <th className="text-left px-6 py-3 text-[11px] font-bold text-text-tertiary uppercase tracking-wider">Source</th>
-                      <th className="text-left px-6 py-3 text-[11px] font-bold text-text-tertiary uppercase tracking-wider">Type</th>
-                      <th className="text-right px-6 py-3 text-[11px] font-bold text-text-tertiary uppercase tracking-wider">Records</th>
-                      <th className="text-right px-6 py-3 text-[11px] font-bold text-text-tertiary uppercase tracking-wider">Status</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {sources.map((source) => (
-                      <tr key={source.sourceId} className="border-b border-border-light last:border-b-0 hover:bg-surface-hover/50 transition-colors">
-                        <td className="px-6 py-3.5">
-                          <div className="flex items-center gap-3">
-                            <div className="w-7 h-7 rounded-md bg-bg flex items-center justify-center text-text-tertiary border border-border">
-                              {getSourceIcon(source.sourceType)}
-                            </div>
-                            <span className="text-sm font-medium text-text-primary">{source.sourceName}</span>
-                          </div>
-                        </td>
-                        <td className="px-6 py-3.5">
-                          <span className="text-xs font-mono text-text-tertiary">{source.sourceType}</span>
-                        </td>
-                        <td className="px-6 py-3.5 text-right">
-                          <span className={cn('text-sm font-semibold', source.status === 'COMPLETED' ? 'text-text-primary' : 'text-text-muted')}>
-                            {source.status === 'COMPLETED' ? source.recordsFound : '—'}
-                          </span>
-                        </td>
-                        <td className="px-6 py-3.5 text-right">
-                          {getStatusBadge(source.status)}
-                        </td>
+                <div className="overflow-x-auto">
+                  <table className="w-full">
+                    <thead>
+                      <tr className="border-b border-border/50 bg-surface-muted/10">
+                        <th className="text-left px-6 py-4 text-[10px] font-bold text-text-tertiary uppercase tracking-widest">Source Entity</th>
+                        <th className="text-left px-6 py-4 text-[10px] font-bold text-text-tertiary uppercase tracking-widest">Integration Type</th>
+                        <th className="text-right px-6 py-4 text-[10px] font-bold text-text-tertiary uppercase tracking-widest">Records</th>
+                        <th className="text-right px-6 py-4 text-[10px] font-bold text-text-tertiary uppercase tracking-widest">Status</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </Card>
+                    </thead>
+                    <tbody className="divide-y divide-border/50">
+                      {sources.map((source) => (
+                        <tr key={source.sourceId} className="hover:bg-surface-hover/50 transition-colors">
+                          <td className="px-6 py-4">
+                            <div className="flex items-center gap-4">
+                              <div className="w-8 h-8 rounded-lg bg-surface flex items-center justify-center text-text-tertiary border border-border shadow-sm">
+                                {getSourceIcon(source.sourceType)}
+                              </div>
+                              <span className="text-sm font-bold text-text-primary">{source.sourceName}</span>
+                            </div>
+                          </td>
+                          <td className="px-6 py-4">
+                            <span className="text-[11px] font-bold text-text-tertiary bg-surface-muted/50 px-2 py-1 rounded-md border border-border/50">{source.sourceType}</span>
+                          </td>
+                          <td className="px-6 py-4 text-right">
+                            <span className={cn('text-sm font-black', source.status === 'COMPLETED' ? 'text-text-primary' : 'text-text-muted')}>
+                              {source.status === 'COMPLETED' ? source.recordsFound : '—'}
+                            </span>
+                          </td>
+                          <td className="px-6 py-4 text-right">
+                            <div className="inline-flex bg-surface px-2.5 py-1 rounded-lg border border-border shadow-sm">
+                               {getStatusBadge(source.status)}
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </AnimatedCard>
 
               {/* Actions */}
-              <div className="flex items-center justify-center gap-4">
+              <div className="flex items-center justify-center gap-4 pt-4">
                 <button
                   onClick={() => { setCurrentStep('configure'); setSources([]); }}
-                  className="flex items-center gap-2 px-6 py-3 border border-border rounded-lg text-sm font-semibold text-text-secondary hover:bg-surface-hover transition-colors"
+                  className="flex items-center gap-2 px-6 py-3 border border-border rounded-xl text-xs font-bold uppercase tracking-widest text-text-secondary hover:bg-surface-hover hover:text-text-primary transition-colors bg-surface-muted/30 shadow-sm"
                 >
                   <RefreshCw className="w-4 h-4" />
-                  Re-Import
+                  Sync Again
                 </button>
                 <a
                   href="/dashboard"
-                  className="flex items-center gap-2 px-6 py-3 bg-brand-green text-white rounded-lg text-sm font-semibold hover:bg-brand-green-dark transition-colors"
+                  className="flex items-center gap-2 px-6 py-3 bg-brand-primary text-white rounded-xl text-xs font-bold uppercase tracking-widest shadow-md hover:shadow-lg transition-all"
                 >
-                  Go to Dashboard
+                  View Dashboard
                   <ArrowRight className="w-4 h-4" />
                 </a>
               </div>
@@ -626,11 +630,11 @@ export default function ImportPage() {
 
       {/* ───── TAB: Document Upload (FR-6) ───── */}
       {activeTab === 'document' && (
-        <Card className="p-8 animate-fade-in">
-          <div className="mb-6">
-            <h2 className="text-lg font-bold text-text-primary">Upload Documents</h2>
-            <p className="text-sm text-text-secondary">
-              Upload CAS PDFs, contract notes, or Excel statements. Max size: 25MB.
+        <AnimatedCard className="p-8 border border-border shadow-sm rounded-2xl bg-surface">
+          <div className="mb-8">
+            <h2 className="text-xl font-bold text-text-primary">Intelligent Parsing</h2>
+            <p className="text-sm font-medium text-text-secondary mt-1">
+              Upload CAS PDFs, contract notes, or Excel statements for AI-driven extraction. Max size: 25MB.
             </p>
           </div>
 
@@ -639,117 +643,119 @@ export default function ImportPage() {
             onDragLeave={handleDragLeave}
             onDrop={handleDrop}
             className={cn(
-              'border-2 border-dashed rounded-xl p-10 flex flex-col items-center justify-center text-center transition-all duration-200',
-              isDragging ? 'border-brand-green bg-brand-green/5' : 'border-border hover:border-border-focus bg-surface/50'
+              'border-2 border-dashed rounded-2xl p-12 flex flex-col items-center justify-center text-center transition-all duration-300',
+              isDragging ? 'border-brand-blue bg-brand-blue/5 shadow-[0_0_20px_rgba(10,132,255,0.15)]' : 'border-border/60 hover:border-brand-blue/50 bg-surface-muted/30 hover:bg-surface-hover'
             )}
           >
-            <div className="w-16 h-16 rounded-full bg-bg flex items-center justify-center border border-border mb-4">
-              <UploadCloud className="w-8 h-8 text-brand-green" />
+            <div className="w-20 h-20 rounded-2xl bg-surface flex items-center justify-center border border-border shadow-sm mb-6">
+              <UploadCloud className="w-10 h-10 text-brand-blue" />
             </div>
-            <p className="text-sm font-semibold text-text-primary mb-1">
-              Drag & drop files here, or <label className="text-brand-green hover:underline cursor-pointer">browse<input type="file" className="hidden" onChange={handleFileChange} accept=".pdf,.csv,.xlsx" /></label>
+            <p className="text-base font-bold text-text-primary mb-2">
+              Drag & drop files here, or <label className="text-brand-blue hover:underline cursor-pointer">browse<input type="file" className="hidden" onChange={handleFileChange} accept=".pdf,.csv,.xlsx" /></label>
             </p>
-            <p className="text-xs text-text-tertiary">
+            <p className="text-xs font-medium text-text-tertiary">
               Supported formats: PDF, CSV, XLSX
             </p>
           </div>
 
           {selectedFile && (
-            <div className="mt-6 p-4 border border-border rounded-lg flex items-center justify-between bg-bg">
-              <div className="flex items-center gap-3">
-                <FileText className="w-5 h-5 text-brand-blue" />
+            <div className="mt-8 p-5 border border-border rounded-xl flex items-center justify-between bg-surface shadow-sm">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-lg bg-brand-blue/10 flex items-center justify-center">
+                  <FileText className="w-6 h-6 text-brand-blue" />
+                </div>
                 <div>
-                  <p className="text-sm font-medium text-text-primary">{selectedFile.name}</p>
-                  <p className="text-xs text-text-tertiary">{(selectedFile.size / 1024 / 1024).toFixed(2)} MB</p>
+                  <p className="text-sm font-bold text-text-primary">{selectedFile.name}</p>
+                  <p className="text-xs font-semibold text-text-tertiary mt-0.5">{(selectedFile.size / 1024 / 1024).toFixed(2)} MB</p>
                 </div>
               </div>
               {uploadStatus === 'idle' && (
-                <button onClick={handleUpload} className="px-4 py-2 bg-brand-green text-white text-sm font-semibold rounded-lg">
+                <button onClick={handleUpload} className="px-5 py-2.5 bg-brand-primary text-white text-xs font-bold uppercase tracking-widest rounded-xl shadow-md hover:shadow-lg transition-all">
                   Upload & Parse
                 </button>
               )}
               {uploadStatus === 'uploading' && (
-                <div className="flex items-center gap-2 text-brand-blue text-sm font-semibold">
-                  <Loader2 className="w-4 h-4 animate-spin" /> Parsing...
+                <div className="flex items-center gap-2 text-brand-blue text-sm font-bold bg-brand-blue/10 px-4 py-2 rounded-lg">
+                  <Loader2 className="w-4 h-4 animate-spin" /> Extracting Data...
                 </div>
               )}
               {uploadStatus === 'success' && (
-                <div className="flex items-center gap-2 text-gain text-sm font-semibold">
-                  <CheckCircle2 className="w-4 h-4" /> Processed
+                <div className="flex items-center gap-2 text-gain text-sm font-bold bg-gain/10 px-4 py-2 rounded-lg">
+                  <CheckCircle2 className="w-4 h-4" /> Verification Complete
                 </div>
               )}
             </div>
           )}
-        </Card>
+        </AnimatedCard>
       )}
 
       {/* ───── TAB: Connector Registry (FR-7) ───── */}
       {activeTab === 'connectors' && (
         <div className="space-y-6 animate-fade-in">
-          <Card className="p-6">
-            <div className="flex items-center justify-between mb-6">
+          <AnimatedCard className="p-8 border border-border shadow-sm rounded-2xl bg-surface">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
               <div>
-                <h2 className="text-lg font-bold text-text-primary">Institutional Connectivity Registry</h2>
-                <p className="text-sm text-text-secondary">Explore 700+ available data connectors</p>
+                <h2 className="text-xl font-bold text-text-primary">Institutional Directory</h2>
+                <p className="text-sm font-medium text-text-secondary mt-1">Explore 700+ supported financial data connectors</p>
               </div>
-              <div className="relative w-64">
-                <Search className="w-4 h-4 text-text-tertiary absolute left-3 top-1/2 -translate-y-1/2" />
+              <div className="relative w-full md:w-72">
+                <Search className="w-4 h-4 text-text-tertiary absolute left-4 top-1/2 -translate-y-1/2" />
                 <input
                   type="text"
                   placeholder="Search connectors..."
                   value={searchQuery}
                   onChange={e => setSearchQuery(e.target.value)}
-                  className="w-full pl-9 pr-4 py-2 text-sm bg-bg border border-border rounded-lg focus:outline-none focus:border-brand-green"
+                  className="w-full pl-10 pr-4 h-11 text-sm font-medium bg-surface-muted/50 border border-border rounded-xl focus:outline-none focus:border-brand-blue focus:ring-1 focus:ring-brand-blue/30 transition-all"
                 />
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {connectors.filter(c => c.name.toLowerCase().includes(searchQuery.toLowerCase())).map(connector => (
-                <div key={connector.id} className="p-4 rounded-xl border border-border bg-bg flex flex-col hover:border-brand-green/50 transition-colors">
-                  <div className="flex items-start justify-between mb-3">
-                    <div className="flex items-center gap-2">
-                      <div className="w-8 h-8 rounded bg-surface flex items-center justify-center">
-                        <Building2 className="w-4 h-4 text-text-tertiary" />
+                <div key={connector.id} className="p-5 rounded-2xl border border-border bg-surface flex flex-col hover:border-brand-blue/40 hover:shadow-md transition-all group">
+                  <div className="flex items-start justify-between mb-4">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-xl bg-surface-muted/50 border border-border/50 flex items-center justify-center shadow-sm">
+                        <Building2 className="w-5 h-5 text-text-secondary group-hover:text-brand-blue transition-colors" />
                       </div>
                       <div>
-                        <p className="text-sm font-bold text-text-primary">{connector.name}</p>
-                        <p className="text-xs text-text-tertiary uppercase tracking-wider">{connector.category}</p>
+                        <p className="text-sm font-bold text-text-primary group-hover:text-brand-blue transition-colors">{connector.name}</p>
+                        <p className="text-[10px] font-bold text-text-tertiary uppercase tracking-widest mt-0.5">{connector.category}</p>
                       </div>
                     </div>
                     {connector.status === 'active' ? (
-                      <span className="w-2 h-2 rounded-full bg-gain"></span>
+                      <span className="flex items-center gap-1.5 text-[10px] font-bold text-gain bg-gain/10 px-2 py-1 rounded-md"><span className="w-1.5 h-1.5 rounded-full bg-gain animate-pulse"></span> Active</span>
                     ) : (
-                      <span className="w-2 h-2 rounded-full bg-orange-500"></span>
+                      <span className="flex items-center gap-1.5 text-[10px] font-bold text-brand-amber bg-brand-amber/10 px-2 py-1 rounded-md"><span className="w-1.5 h-1.5 rounded-full bg-brand-amber"></span> Beta</span>
                     )}
                   </div>
-                  <div className="mt-auto flex items-center justify-between text-xs border-t border-border pt-3">
-                    <span className="text-text-secondary flex items-center gap-1">
+                  <div className="mt-auto flex items-center justify-between text-xs border-t border-border/50 pt-4">
+                    <span className="text-text-tertiary font-bold flex items-center gap-1.5 uppercase tracking-wider">
                       <ShieldCheck className="w-3.5 h-3.5" /> {connector.authType}
                     </span>
-                    <button className="text-brand-green font-semibold hover:underline">Connect</button>
+                    <button className="text-brand-primary font-bold hover:underline">Link Account</button>
                   </div>
                 </div>
               ))}
             </div>
-          </Card>
+          </AnimatedCard>
         </div>
       )}
 
       {/* ───── TAB: Platform Integrations (FR-5) ───── */}
       {activeTab === 'platform' && (
-        <Card className="p-8 text-center py-20 animate-fade-in">
-          <div className="w-16 h-16 rounded-full bg-surface mx-auto flex items-center justify-center border border-border mb-4">
-            <Link className="w-8 h-8 text-brand-blue" />
+        <AnimatedCard className="p-12 text-center border border-border shadow-sm rounded-2xl bg-surface">
+          <div className="w-20 h-20 rounded-2xl bg-brand-blue/10 mx-auto flex items-center justify-center border border-brand-blue/20 mb-6 shadow-sm">
+            <Link className="w-10 h-10 text-brand-blue" />
           </div>
-          <h2 className="text-xl font-bold text-text-primary mb-2">Direct Platform Links</h2>
-          <p className="text-sm text-text-secondary max-w-md mx-auto mb-6">
-            Connect directly to your broker or AMC using a secure credential vault. Supports re-auth and automatic scheduled syncs.
+          <h2 className="text-2xl font-black tracking-tight text-text-primary mb-3">Direct Platform Intelligence</h2>
+          <p className="text-sm font-medium text-text-secondary max-w-md mx-auto mb-8 leading-relaxed">
+            Connect directly to your broker, AMC, or custodian using a secure credential vault. Supports seamless re-authentication and real-time syncing.
           </p>
-          <Button className="h-11 px-6 bg-brand-blue text-white hover:bg-brand-blue-dark">
-            Setup New Connection
+          <Button className="h-12 px-8 bg-brand-primary text-white hover:bg-brand-primary-hover shadow-md hover:shadow-lg transition-all rounded-xl text-sm font-bold uppercase tracking-widest">
+            Establish Connection
           </Button>
-        </Card>
+        </AnimatedCard>
       )}
     </div>
   );

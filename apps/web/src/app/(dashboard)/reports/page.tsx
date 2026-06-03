@@ -13,15 +13,18 @@ import {
   FilePlus,
   CheckCircle2,
   Loader2,
+  FolderLock
 } from 'lucide-react';
+import { AnimatedCard } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 
 const REPORT_TYPES = [
-  { id: 'holdings', label: 'Holdings Report', description: 'Current portfolio positions across all assets', icon: FileText, color: 'bg-brand-blue-bg text-brand-blue' },
-  { id: 'transactions', label: 'Transaction History', description: 'Complete buy/sell/SIP/dividend history', icon: FileSpreadsheet, color: 'bg-brand-purple-bg text-brand-purple' },
-  { id: 'income', label: 'Income Report', description: 'Dividends, interest, and other income', icon: FilePlus, color: 'bg-brand-green-bg text-brand-green' },
-  { id: 'tax', label: 'STCG/LTCG Report', description: 'Capital gains computation for tax filing', icon: FileText, color: 'bg-brand-amber-bg text-brand-amber' },
-  { id: 'performance', label: 'Performance Report', description: 'XIRR, CAGR, and benchmark comparison', icon: FileSpreadsheet, color: 'bg-brand-blue-bg text-brand-blue' },
-  { id: 'itr', label: 'ITR-Ready Report', description: 'Ready-to-file tax computation document', icon: FileText, color: 'bg-brand-red-bg text-brand-red' },
+  { id: 'holdings', label: 'Holdings Report', description: 'Current portfolio positions across all assets', icon: FileText, color: 'brand-blue' },
+  { id: 'transactions', label: 'Transaction History', description: 'Complete buy/sell/SIP/dividend history', icon: FileSpreadsheet, color: 'brand-purple' },
+  { id: 'income', label: 'Income Report', description: 'Dividends, interest, and other income', icon: FilePlus, color: 'brand-green' },
+  { id: 'tax', label: 'STCG/LTCG Report', description: 'Capital gains computation for tax filing', icon: FileText, color: 'brand-amber' },
+  { id: 'performance', label: 'Performance Report', description: 'XIRR, CAGR, and benchmark comparison', icon: FileSpreadsheet, color: 'brand-blue' },
+  { id: 'itr', label: 'ITR-Ready Report', description: 'Ready-to-file tax computation document', icon: FolderLock, color: 'brand-red' },
 ];
 
 const RECENT_REPORTS = [
@@ -40,127 +43,147 @@ export default function ReportsPage() {
   };
 
   return (
-    <div className="p-6 space-y-6 animate-fade-in">
+    <div className="space-y-6 animate-fade-in max-w-6xl mx-auto pb-12">
       {/* Header */}
-      <div className="flex items-start justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-border pb-6">
         <div>
-          <h1 className="text-2xl font-bold text-text-primary">Reports</h1>
-          <p className="text-sm text-text-secondary mt-1">
-            Generate institutional-grade reports for compliance, tax filing, and analysis
+          <h1 className="text-3xl font-black tracking-tight text-text-primary flex items-center gap-3">
+            <FolderLock className="w-8 h-8 text-brand-blue" />
+            Intelligence Reports
+          </h1>
+          <p className="text-sm font-medium text-text-secondary mt-1.5">
+            Generate institutional-grade reports for compliance, tax filing, and analysis.
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <button className="flex items-center gap-1.5 px-3 py-2 text-sm font-medium border border-border rounded-lg text-text-secondary hover:bg-surface-hover transition-colors">
-            <Calendar className="w-4 h-4" />
-            Schedule Report
-          </button>
+          <Button className="flex items-center gap-2 h-12 px-6 bg-surface border border-border shadow-sm text-text-primary text-xs font-bold uppercase tracking-widest rounded-xl hover:shadow-md hover:border-brand-blue/30 transition-all">
+            <Calendar className="w-4 h-4 mr-1 text-brand-blue" />
+            Schedule Delivery
+          </Button>
         </div>
       </div>
 
       {/* Report Types Grid */}
-      <div>
-        <h2 className="text-lg font-semibold text-text-primary mb-4">Generate New Report</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="mt-8">
+        <h2 className="text-sm font-bold text-text-tertiary uppercase tracking-widest mb-6 px-2">Report Library</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {REPORT_TYPES.map((report, index) => {
             const Icon = report.icon;
             const isGenerating = generatingReport === report.id;
 
             return (
-              <div
+              <AnimatedCard
                 key={report.id}
-                className="card p-5 hover:shadow-card-hover transition-all duration-200 cursor-pointer group"
+                className="p-6 border border-border shadow-sm rounded-2xl bg-surface relative overflow-hidden group hover:border-border-hover transition-all"
                 style={{ animationDelay: `${index * 60}ms` }}
               >
-                <div className={cn('w-10 h-10 rounded-lg flex items-center justify-center mb-4', report.color)}>
-                  <Icon className="w-5 h-5" />
+                <div className={`absolute -right-4 -top-4 w-24 h-24 bg-${report.color}/5 rounded-full blur-2xl group-hover:bg-${report.color}/10 transition-colors`} />
+                <div className="relative z-10 flex flex-col h-full">
+                  <div className={`w-12 h-12 rounded-xl bg-${report.color}/10 border border-${report.color}/20 flex items-center justify-center mb-5 shadow-sm group-hover:scale-110 transition-transform`}>
+                    <Icon className={`w-6 h-6 text-${report.color}`} />
+                  </div>
+                  <h3 className="text-lg font-bold text-text-primary mb-2 tracking-tight">{report.label}</h3>
+                  <p className="text-xs font-medium text-text-secondary mb-6 leading-relaxed flex-grow">{report.description}</p>
+                  
+                  <div className="flex items-center gap-3 mt-auto pt-4 border-t border-border/50">
+                    <Button
+                      onClick={() => handleGenerate(report.id)}
+                      disabled={isGenerating}
+                      className={cn(
+                        'flex-1 flex items-center justify-center gap-2 h-10 rounded-xl text-xs font-bold uppercase tracking-widest transition-all shadow-sm',
+                        isGenerating
+                          ? 'bg-surface-hover text-text-tertiary cursor-wait border border-border'
+                          : 'bg-brand-primary text-white hover:bg-brand-primary-hover hover:shadow-md'
+                      )}
+                    >
+                      {isGenerating ? (
+                        <>
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                          Processing
+                        </>
+                      ) : (
+                        <>
+                          <Download className="w-4 h-4" />
+                          PDF
+                        </>
+                      )}
+                    </Button>
+                    <Button variant="outline" className="flex-1 flex items-center justify-center gap-2 h-10 rounded-xl text-xs font-bold uppercase tracking-widest border border-border bg-surface text-text-secondary hover:text-text-primary hover:bg-surface-hover shadow-sm transition-all">
+                      <FileSpreadsheet className="w-4 h-4" />
+                      Excel
+                    </Button>
+                  </div>
                 </div>
-                <h3 className="text-sm font-semibold text-text-primary mb-1">{report.label}</h3>
-                <p className="text-xs text-text-secondary mb-4 leading-relaxed">{report.description}</p>
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={() => handleGenerate(report.id)}
-                    disabled={isGenerating}
-                    className={cn(
-                      'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors',
-                      isGenerating
-                        ? 'bg-surface-hover text-text-tertiary cursor-wait'
-                        : 'bg-sidebar text-white hover:bg-sidebar-hover'
-                    )}
-                  >
-                    {isGenerating ? (
-                      <>
-                        <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                        Generating...
-                      </>
-                    ) : (
-                      <>
-                        <Download className="w-3.5 h-3.5" />
-                        PDF
-                      </>
-                    )}
-                  </button>
-                  <button className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium border border-border text-text-secondary hover:bg-surface-hover transition-colors">
-                    <FileSpreadsheet className="w-3.5 h-3.5" />
-                    Excel
-                  </button>
-                </div>
-              </div>
+              </AnimatedCard>
             );
           })}
         </div>
       </div>
 
       {/* Recent Reports */}
-      <div className="card overflow-hidden">
-        <div className="px-6 pt-6 pb-4 flex items-center justify-between">
-          <h2 className="text-lg font-semibold text-text-primary">Recent Reports</h2>
-          <button className="text-sm font-medium text-text-secondary hover:text-text-primary transition-colors">
-            View All
+      <AnimatedCard className="mt-8 overflow-hidden border border-border shadow-sm rounded-2xl bg-surface">
+        <div className="px-8 py-6 border-b border-border/50 bg-surface-muted/30 flex items-center justify-between">
+          <div>
+            <h2 className="text-xl font-bold text-text-primary tracking-tight">Recent Exports</h2>
+            <p className="text-sm font-medium text-text-secondary mt-1">History of generated reports and documents.</p>
+          </div>
+          <button className="text-xs font-bold text-brand-blue uppercase tracking-widest hover:text-brand-blue-hover transition-colors">
+            View All History
           </button>
         </div>
-        <table className="data-table">
-          <thead>
-            <tr>
-              <th className="pl-6">Report</th>
-              <th>Format</th>
-              <th>Generated</th>
-              <th>Status</th>
-              <th className="text-right pr-6">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {RECENT_REPORTS.map((report) => (
-              <tr key={report.id} className="cursor-pointer">
-                <td className="pl-6">
-                  <span className="text-sm font-semibold text-text-primary">{report.type}</span>
-                </td>
-                <td>
-                  <span className={cn('badge', report.format === 'PDF' ? 'badge-red' : 'badge-green')}>
-                    {report.format}
-                  </span>
-                </td>
-                <td>
-                  <span className="text-sm text-text-secondary">
-                    {new Date(report.date).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}
-                  </span>
-                </td>
-                <td>
-                  <div className="flex items-center gap-1.5">
-                    <CheckCircle2 className="w-4 h-4 text-gain" />
-                    <span className="text-sm text-gain font-medium capitalize">{report.status}</span>
-                  </div>
-                </td>
-                <td className="text-right pr-6">
-                  <button className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium text-brand-blue hover:bg-brand-blue-bg transition-colors ml-auto">
-                    <Download className="w-3.5 h-3.5" />
-                    Download
-                  </button>
-                </td>
+        <div className="overflow-x-auto">
+          <table className="w-full">
+            <thead>
+              <tr className="border-b border-border/50 bg-surface-muted/10">
+                <th className="text-left px-8 py-4 text-[10px] font-bold text-text-tertiary uppercase tracking-widest">Document</th>
+                <th className="text-left px-6 py-4 text-[10px] font-bold text-text-tertiary uppercase tracking-widest">Format</th>
+                <th className="text-left px-6 py-4 text-[10px] font-bold text-text-tertiary uppercase tracking-widest">Generated On</th>
+                <th className="text-left px-6 py-4 text-[10px] font-bold text-text-tertiary uppercase tracking-widest">Status</th>
+                <th className="text-right px-8 py-4 text-[10px] font-bold text-text-tertiary uppercase tracking-widest">Action</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody className="divide-y divide-border/50">
+              {RECENT_REPORTS.map((report) => (
+                <tr key={report.id} className="hover:bg-surface-hover/50 transition-colors group cursor-pointer">
+                  <td className="px-8 py-5">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-lg bg-surface border border-border flex items-center justify-center group-hover:border-brand-blue/30 transition-colors">
+                        {report.format === 'PDF' ? <FileText className="w-4 h-4 text-brand-red" /> : <FileSpreadsheet className="w-4 h-4 text-brand-green" />}
+                      </div>
+                      <span className="text-sm font-bold text-text-primary tracking-tight">{report.type}</span>
+                    </div>
+                  </td>
+                  <td className="px-6 py-5">
+                    <span className={cn(
+                      'inline-flex px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest rounded-md border shadow-sm',
+                      report.format === 'PDF' ? 'bg-brand-red/10 text-brand-red border-brand-red/20' : 'bg-brand-green/10 text-brand-green border-brand-green/20'
+                    )}>
+                      {report.format}
+                    </span>
+                  </td>
+                  <td className="px-6 py-5">
+                    <span className="text-xs font-bold text-text-secondary uppercase tracking-widest">
+                      {new Date(report.date).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}
+                    </span>
+                  </td>
+                  <td className="px-6 py-5">
+                    <div className="flex items-center gap-2 bg-gain/5 w-max px-2.5 py-1 rounded-md border border-gain/10">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-gain" />
+                      <span className="text-[10px] font-bold text-gain uppercase tracking-widest">{report.status}</span>
+                    </div>
+                  </td>
+                  <td className="px-8 py-5 text-right">
+                    <Button variant="outline" className="h-9 px-4 text-[10px] font-bold uppercase tracking-widest rounded-lg border-border/50 text-brand-blue hover:text-white hover:bg-brand-blue hover:border-brand-blue transition-all ml-auto">
+                      <Download className="w-3.5 h-3.5 mr-2" />
+                      Download
+                    </Button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </AnimatedCard>
     </div>
   );
 }
