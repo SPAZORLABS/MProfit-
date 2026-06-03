@@ -23,13 +23,13 @@ export declare class AuthController {
         };
     }>;
     getProfile(req: any): Promise<{
-        id: string;
-        email: string;
         name: string;
+        id: string;
+        createdAt: Date;
+        email: string;
         avatarUrl: string | null;
         role: import(".prisma/client").$Enums.UserRole;
         kycStatus: import(".prisma/client").$Enums.KYCStatus;
         panLast4: string | null;
-        createdAt: Date;
     }>;
 }
