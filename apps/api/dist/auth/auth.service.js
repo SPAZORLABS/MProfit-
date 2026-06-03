@@ -36,6 +36,40 @@ let AuthService = AuthService_1 = class AuthService {
     }
     async initiatePanVerification(dto) {
         const tenant = await this.tenantService.getTenantBySlug(dto.tenantSlug);
+        const setuClientId = process.env.SETU_CLIENT_ID;
+        const setuClientSecret = process.env.SETU_CLIENT_SECRET;
+        let verifiedFullName = 'MProfit User';
+        if (setuClientId && setuClientSecret) {
+            try {
+                const response = await fetch('https://dg-sandbox.setu.co/api/verify/pan', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-client-id': setuClientId,
+                        'x-client-secret': setuClientSecret
+                    },
+                    body: JSON.stringify({
+                        pan: dto.pan,
+                        consent: 'Y',
+                        reason: 'Verification for onboarding'
+                    })
+                });
+                const data = await response.json();
+                if (!response.ok || data.verification !== 'success') {
+                    this.logger.warn(`Setu PAN verification failed: ${JSON.stringify(data)}`);
+                    throw new common_1.BadRequestException('Invalid PAN provided or PAN not found');
+                }
+                verifiedFullName = data.data?.full_name || 'MProfit User';
+                this.logger.log(`PAN verified successfully for: ${verifiedFullName}`);
+            }
+            catch (err) {
+                this.logger.error(`Setu API Error: ${err.message}`);
+                throw new common_1.BadRequestException(err.message || 'PAN Verification failed');
+            }
+        }
+        else {
+            this.logger.warn('Setu credentials missing. Skipping live PAN verification.');
+        }
         const panHash = await bcrypt.hash(dto.pan, 10);
         const panLast4 = dto.pan.slice(-4);
         let user = await this.prisma.user.findFirst({
@@ -50,6 +84,7 @@ let AuthService = AuthService_1 = class AuthService {
             tenantId: tenant.id,
             otp,
             expires: Date.now() + 5 * 60 * 1000,
+            fullName: verifiedFullName,
         });
         this.logger.log(`Generated OTP ${otp} for PAN ending in ${panLast4} with ref ${referenceId}`);
         return {
@@ -83,7 +118,7 @@ let AuthService = AuthService_1 = class AuthService {
             },
             create: {
                 email: `${record.pan.toLowerCase()}@example.com`,
-                name: 'MProfit User',
+                name: record.fullName || 'MProfit User',
                 passwordHash: await bcrypt.hash((0, uuid_1.v4)(), 10),
                 tenantId: record.tenantId,
                 panHash: panHash,

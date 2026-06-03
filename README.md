@@ -16,6 +16,7 @@ A modern monorepo application managed with [Turborepo](https://turbo.build/repo/
    ```
 
 2. **Start Docker infrastructure**
+   Ensure Docker Desktop is running, then start the services:
    ```bash
    npm run docker:up
    ```
@@ -26,6 +27,7 @@ A modern monorepo application managed with [Turborepo](https://turbo.build/repo/
    npm run db:migrate
    npm run db:seed
    ```
+   *(Note: If you need to completely wipe the database for a fresh start, run `cd apps/api && npx prisma migrate reset --force` instead).*
 
 4. **Run the development server**
    ```bash
@@ -49,8 +51,13 @@ This project uses Turborepo to run scripts efficiently across all packages and a
 Database commands are specific to the `api` app but are exposed at the root level for convenience:
 
 - `npm run db:generate`: Generates the Prisma client.
-- `npm run db:migrate`: Runs database migrations.
+- `npm run db:migrate`: Runs database migrations without resetting.
 - `npm run db:seed`: Seeds the database with initial data.
+- **Factory Reset:** If you want to wipe all data and start completely fresh, you must run it directly from the API folder:
+  ```bash
+  cd apps/api
+  npx prisma migrate reset --force
+  ```
 
 ## Project Structure
 
